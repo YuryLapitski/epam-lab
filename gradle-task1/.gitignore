@@ -8,5 +8,4 @@ gen/**
 *.iws
 .gradletasknamecache
 .gradle/
-build/
 bin/
