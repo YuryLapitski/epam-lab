@@ -12,7 +12,7 @@ public class StringUtils {
         if (isCreatable(str)) {
             return toInt(str) >= 0;
         } else {
-            throw new NumberException("This is not number: " + str);
+            throw new NumberException(str + " is not number");
         }
     }
 }
