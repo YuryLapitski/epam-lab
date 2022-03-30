@@ -12,7 +12,7 @@ import static org.apache.commons.lang3.math.NumberUtils.toInt;
 <span class="fc bfc" id="L12" title="All 2 branches covered.">        if (isCreatable(str)) {</span>
 <span class="fc bfc" id="L13" title="All 2 branches covered.">            return toInt(str) &gt;= 0;</span>
         } else {
-<span class="fc" id="L15">            throw new NumberException(&quot;This is not number: &quot; + str);</span>
+<span class="fc" id="L15">            throw new NumberException(str + &quot; is not number&quot;);</span>
         }
     }
 }
