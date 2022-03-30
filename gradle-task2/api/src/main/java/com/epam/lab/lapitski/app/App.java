@@ -2,14 +2,26 @@ package com.epam.lab.lapitski.app;
 
 import com.epam.lab.lapitski.exception.NumberException;
 import com.epam.lab.lapitski.util.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class App {
 
+    private static final Logger LOG = LogManager.getLogger(App.class);
+    private static final String FIRST_NUMBER = "12";
+    private static final String SECOND_NUMBER = "79";
+
     public static void main(String[] args) {
+        LOG.info("Start program...");
         try {
-            System.out.println(Utils.isAllPositiveNumbers("12", "79"));
+            if (Utils.isAllPositiveNumbers(FIRST_NUMBER, SECOND_NUMBER)) {
+                LOG.trace("Numbers {}, {} are positive", FIRST_NUMBER, SECOND_NUMBER);
+            } else {
+                LOG.trace("One or more numbers {}, {} are negative", FIRST_NUMBER, SECOND_NUMBER);
+            }
         } catch (NumberException e) {
-            System.out.println(e.getMessage());
+            LOG.warn(e.getMessage());
         }
+        LOG.info("End program.");
     }
 }
