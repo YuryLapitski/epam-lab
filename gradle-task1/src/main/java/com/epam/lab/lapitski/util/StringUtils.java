@@ -1,18 +1,18 @@
 package com.epam.lab.lapitski.util;
 
-import com.epam.lab.lapitski.exception.NumberException;
-
 import static org.apache.commons.lang3.math.NumberUtils.isCreatable;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 
 public class StringUtils {
 
-    public static boolean isPositiveNumber(String str) throws NumberException {
+    private StringUtils() {
+    }
 
+    public static boolean isPositiveNumber(String str) throws NumberFormatException {
         if (isCreatable(str)) {
             return toInt(str) >= 0;
         } else {
-            throw new NumberException(str + " is not number");
+            throw new NumberFormatException(str + " is not number");
         }
     }
 }

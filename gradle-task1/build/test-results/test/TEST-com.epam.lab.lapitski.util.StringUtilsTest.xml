@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.epam.lab.lapitski.util.StringUtilsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-03-30T21:44:06" hostname="YURY" time="0.071">
+<testsuite name="com.epam.lab.lapitski.util.StringUtilsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-03-31T10:25:33" hostname="YURY" time="0.073">
   <properties/>
-  <testcase name="isPositiveNumberTrue()" classname="com.epam.lab.lapitski.util.StringUtilsTest" time="0.063"/>
-  <testcase name="isPositiveNumberException()" classname="com.epam.lab.lapitski.util.StringUtilsTest" time="0.002"/>
+  <testcase name="isPositiveNumberTrue()" classname="com.epam.lab.lapitski.util.StringUtilsTest" time="0.066"/>
+  <testcase name="isPositiveNumberException()" classname="com.epam.lab.lapitski.util.StringUtilsTest" time="0.001"/>
   <testcase name="isPositiveNumberFalse()" classname="com.epam.lab.lapitski.util.StringUtilsTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

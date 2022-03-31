@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    id 'java'
     id 'jacoco'
     id 'maven-publish'
 }
@@ -48,3 +48,7 @@ test {
 
 test.finalizedBy jacocoTestReport
 jacocoTestReport.dependsOn test
+
+javadoc {
+    source = sourceSets.main.allJava
+}

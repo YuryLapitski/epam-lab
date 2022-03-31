@@ -1,6 +1,5 @@
 package com.epam.lab.lapitski.app;
 
-import com.epam.lab.lapitski.exception.NumberException;
 import com.epam.lab.lapitski.util.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +18,7 @@ public class App {
             } else {
                 LOG.trace("One or more numbers {}, {} are negative", FIRST_NUMBER, SECOND_NUMBER);
             }
-        } catch (NumberException e) {
+        } catch (NumberFormatException e) {
             LOG.warn(e.getMessage());
         }
         LOG.info("End program.");
