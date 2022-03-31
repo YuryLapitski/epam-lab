@@ -1,9 +1,10 @@
 package com.epam.lab.lapitski.util;
 
-import com.epam.lab.lapitski.exception.NumberException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class StringUtilsTest {
 
@@ -12,12 +13,12 @@ public class StringUtilsTest {
     private static final String NOT_NUMBER = "Not_number";
 
     @Test
-    void isPositiveNumberTrue() throws NumberException {
+    void isPositiveNumberTrue() throws NumberFormatException {
         assertTrue(StringUtils.isPositiveNumber(POSITIVE_NUMBER));
     }
 
     @Test
-    void isPositiveNumberFalse() throws NumberException {
+    void isPositiveNumberFalse() throws NumberFormatException {
         assertFalse(StringUtils.isPositiveNumber(NEGATIVE_NUMBER));
     }
 
@@ -26,7 +27,7 @@ public class StringUtilsTest {
         try {
             StringUtils.isPositiveNumber(NOT_NUMBER);
             fail("Should throw NumberException");
-        } catch (NumberException e) {
+        } catch (NumberFormatException e) {
             assertTrue(true);
         }
     }
