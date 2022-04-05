@@ -1,24 +1,21 @@
-package com.epam.esm.gift.entity;
+package com.epam.esm.gift.entity.impl;
+
+import com.epam.esm.gift.entity.Entity;
 
 import java.util.Objects;
 
 public class Tag implements Entity {
 
-    private static final long serialVersionUID = -1052515469061625999L;
-    private final Long id;
-    private final String name;
+    private long id;
+    private String name;
 
-    public Tag(Long id, String name) {
+    public Tag(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Tag(String name) {
-        this(null, name);
-    }
-
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -28,10 +25,14 @@ public class Tag implements Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Tag tag = (Tag) o;
-        return Objects.equals(id, tag.id) &&
+        return id == tag.id &&
                 Objects.equals(name, tag.name);
     }
 
