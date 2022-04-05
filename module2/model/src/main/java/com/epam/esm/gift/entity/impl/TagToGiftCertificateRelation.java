@@ -1,45 +1,50 @@
-package com.epam.esm.gift.entity;
+package com.epam.esm.gift.entity.impl;
+
+import com.epam.esm.gift.entity.Entity;
 
 import java.util.Objects;
 
 public class TagToGiftCertificateRelation implements Entity {
+    private long id;
+    private long tagId;
+    private long giftCertificateId;
 
-    private static final long serialVersionUID = -1140545585762920279L;
-    private final Long id;
-    private final Long tagId;
-    private final Long giftCertificateId;
-
-    public TagToGiftCertificateRelation(Long id, Long tagId, Long giftCertificateId) {
+    public TagToGiftCertificateRelation(long id, long tagId, long giftCertificateId) {
         this.id = id;
         this.tagId = tagId;
         this.giftCertificateId = giftCertificateId;
     }
 
-    public TagToGiftCertificateRelation(Long tagId, Long giftCertificateId) {
-        this(null, tagId,giftCertificateId);
-    }
+    //    public TagToGiftCertificateRelation(Long tagId, Long giftCertificateId) { todo Lombok
+//        this(null, tagId,giftCertificateId);
+//    }
+
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public Long getTagId() {
+    public long getTagId() {
         return tagId;
     }
 
-    public Long getGiftCertificateId() {
+    public long getGiftCertificateId() {
         return giftCertificateId;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         TagToGiftCertificateRelation that = (TagToGiftCertificateRelation) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(tagId, that.tagId) &&
-                Objects.equals(giftCertificateId, that.giftCertificateId);
+        return id == that.id &&
+                tagId == that.tagId &&
+                giftCertificateId == that.giftCertificateId;
     }
 
     @Override

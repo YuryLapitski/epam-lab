@@ -1,20 +1,21 @@
-package com.epam.esm.gift.entity;
+package com.epam.esm.gift.entity.impl;
+
+import com.epam.esm.gift.entity.Entity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class GiftCertificate implements Entity {
 
-    private static final long serialVersionUID = -8328450787125096711L;
-    private final Long id;
-    private final String name;
-    private final String description;
-    private final Double price;
-    private final Byte duration;
-    private final LocalDateTime createDate;
-    private final LocalDateTime lastUpdateDate;
+    private long id;
+    private String name;
+    private String description;
+    private double price;
+    private short duration;
+    private LocalDateTime createDate;
+    private LocalDateTime lastUpdateDate;
 
-    public GiftCertificate(Long id, String name, String description, Double price, Byte duration,
+    public GiftCertificate(long id, String name, String description, double price, short duration,
                            LocalDateTime createDate, LocalDateTime lastUpdateDate) {
         this.id = id;
         this.name = name;
@@ -25,14 +26,9 @@ public class GiftCertificate implements Entity {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public GiftCertificate(String name, String description, Double price, Byte duration,
-                           LocalDateTime createDate, LocalDateTime lastUpdateDate) {
-        this(null, name, description, price, duration, createDate, lastUpdateDate);
-    }
-
     @Override
-    public Long getId() {
-        return null;
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -43,11 +39,11 @@ public class GiftCertificate implements Entity {
         return description;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public Byte getDuration() {
+    public short getDuration() {
         return duration;
     }
 
@@ -61,14 +57,18 @@ public class GiftCertificate implements Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         GiftCertificate that = (GiftCertificate) o;
-        return Objects.equals(id, that.id) &&
+        return id == that.id &&
+                Double.compare(that.price, price) == 0 &&
+                duration == that.duration &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(price, that.price) &&
-                Objects.equals(duration, that.duration) &&
                 Objects.equals(createDate, that.createDate) &&
                 Objects.equals(lastUpdateDate, that.lastUpdateDate);
     }
