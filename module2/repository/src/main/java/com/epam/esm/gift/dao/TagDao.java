@@ -4,4 +4,6 @@ import com.epam.esm.gift.entity.impl.Tag;
 
 public interface TagDao extends EntityDao<Tag> {
 
+    boolean deleteTagByName(String name);
+
 }

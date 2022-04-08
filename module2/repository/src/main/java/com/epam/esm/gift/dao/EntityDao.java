@@ -9,9 +9,9 @@ public interface EntityDao<T extends Entity> {
 
     T create(T entity);
 
-    List<T> findAll(); //todo findAll
+    List<T> findAll();
 
-    Optional<T> findById(Long id); //todo findById
+    Optional<T> findById(long id) throws Exception;
 
-    boolean delete(Long id);
+    boolean delete(long id);
 }
