@@ -18,12 +18,12 @@ public class TagToGiftCertificateDaoImpl implements TagToGiftCertificate {
     }
 
     @Override
-    public Optional<TagToGiftCertificateRelation> findById(Long id) {
+    public Optional<TagToGiftCertificateRelation> findById(long id) {
         return Optional.empty();
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(long id) {
         return false;
     }
 }
