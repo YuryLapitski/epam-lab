@@ -1,7 +1,7 @@
-package com.epam.esm.gift.dao.impl;
+package com.epam.esm.dao.impl;
 
-import com.epam.esm.gift.dao.GiftCertificateDao;
-import com.epam.esm.gift.entity.impl.GiftCertificate;
+import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.entity.impl.GiftCertificate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -108,7 +108,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public boolean deleteGiftCertificateByName(String name) {
+    public boolean deleteGiftCertificateByName(String name) { //fixme: Maybe this method should be deleted
         return jdbcTemplate.update(DELETE_GIFT_CERTIFICATE_BY_NAME, name) >= NUMBER_OF_CHANGED_ROWS;
     }
 }

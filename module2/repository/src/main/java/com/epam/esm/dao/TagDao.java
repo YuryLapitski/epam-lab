@@ -1,6 +1,6 @@
-package com.epam.esm.gift.dao;
+package com.epam.esm.dao;
 
-import com.epam.esm.gift.entity.impl.Tag;
+import com.epam.esm.entity.impl.Tag;
 
 public interface TagDao extends EntityDao<Tag> {
 

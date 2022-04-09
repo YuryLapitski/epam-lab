@@ -1,4 +1,4 @@
-package com.epam.esm.gift.config;
+package com.epam.esm.config;
 
 import org.junit.jupiter.api.Test;
 
