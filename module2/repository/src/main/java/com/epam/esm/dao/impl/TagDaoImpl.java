@@ -1,10 +1,9 @@
-package com.epam.esm.gift.dao.impl;
+package com.epam.esm.dao.impl;
 
-import com.epam.esm.gift.dao.TagDao;
-import com.epam.esm.gift.entity.impl.Tag;
+import com.epam.esm.entity.impl.Tag;
+import com.epam.esm.dao.TagDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,7 +19,7 @@ import java.util.Optional;
 @Repository
 public class TagDaoImpl implements TagDao {
     private static final String FIND_TAG_BY_ID = "SELECT id, name FROM tag WHERE id = ?";
-    private static final String CREATE_TAG = "INSERT INTO tag (name) VALUES (?)";
+    private static final String CREATE_TAG = "INSERT INTO tag (name) VALUES ?";
     private static final String DELETE_TAG_BY_ID = "DELETE FROM tag WHERE id = ?";
     private static final String DELETE_TAG_BY_NAME = "DELETE FROM tag WHERE name = ?";
     private static final String FIND_ALL_TAGS = "SELECT id, name FROM tag";
@@ -31,9 +30,9 @@ public class TagDaoImpl implements TagDao {
     private final RowMapper<Tag> rowMapper;
 
     @Autowired
-    public TagDaoImpl(JdbcTemplate jdbcTemplate) {
+    public TagDaoImpl(JdbcTemplate jdbcTemplate, RowMapper<Tag> rowMapper) {
         this.jdbcTemplate = jdbcTemplate;
-        this.rowMapper = BeanPropertyRowMapper.newInstance(Tag.class);
+        this.rowMapper = rowMapper;
     }
 
     @Override
@@ -43,6 +42,7 @@ public class TagDaoImpl implements TagDao {
         jdbcTemplate.update(con -> {
             PreparedStatement preparedStatement = con.prepareStatement(CREATE_TAG, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(FIRST_INDEX, entity.getName());
+
             return preparedStatement;
         }, keyHolder);
 
@@ -75,7 +75,7 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public boolean deleteTagByName(String name) { //fixme
+    public boolean deleteTagByName(String name) { //fixme: Maybe this method should be deleted
         return jdbcTemplate.update(DELETE_TAG_BY_NAME, name) >= NUMBER_OF_CHANGED_ROWS;
     }
 }

@@ -1,6 +1,6 @@
-package com.epam.esm.gift.entity.impl;
+package com.epam.esm.entity.impl;
 
-import com.epam.esm.gift.entity.Entity;
+import com.epam.esm.entity.Entity;
 import lombok.Data;
 
 @Data

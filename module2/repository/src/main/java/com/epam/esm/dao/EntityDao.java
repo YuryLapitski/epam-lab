@@ -1,6 +1,6 @@
-package com.epam.esm.gift.dao;
+package com.epam.esm.dao;
 
-import com.epam.esm.gift.entity.Entity;
+import com.epam.esm.entity.Entity;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ public interface EntityDao<T extends Entity> {
 
     List<T> findAll();
 
-    Optional<T> findById(long id) throws Exception;
+    Optional<T> findById(long id);
 
     boolean delete(long id);
 }

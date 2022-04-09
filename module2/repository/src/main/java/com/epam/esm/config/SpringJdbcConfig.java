@@ -1,11 +1,14 @@
-package com.epam.esm.gift.config;
+package com.epam.esm.config;
 
+import com.epam.esm.entity.impl.Tag;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 
@@ -19,7 +22,7 @@ public class SpringJdbcConfig {
     @Value("${password}")
     private String dataBasePassword;
     @Value("${driver}")
-    private String driverClassName;
+    private String dataBaseDriverClassName;
     @Value("${pool.size}")
     private int poolSize;
 
@@ -29,7 +32,7 @@ public class SpringJdbcConfig {
         hikariDataSource.setJdbcUrl(dataBaseUrl);
         hikariDataSource.setUsername(dataBaseUserName);
         hikariDataSource.setPassword(dataBasePassword);
-        hikariDataSource.setDriverClassName(driverClassName);
+        hikariDataSource.setDriverClassName(dataBaseDriverClassName);
         hikariDataSource.setMaximumPoolSize(poolSize);
         return hikariDataSource;
     }
@@ -37,5 +40,10 @@ public class SpringJdbcConfig {
     @Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public RowMapper<Tag> tagRowMapper() {
+        return new BeanPropertyRowMapper<>(Tag.class);
     }
 }

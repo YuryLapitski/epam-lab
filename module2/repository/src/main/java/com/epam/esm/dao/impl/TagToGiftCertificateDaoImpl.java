@@ -1,7 +1,7 @@
-package com.epam.esm.gift.dao.impl;
+package com.epam.esm.dao.impl;
 
-import com.epam.esm.gift.dao.TagToGiftCertificate;
-import com.epam.esm.gift.entity.impl.TagToGiftCertificateRelation;
+import com.epam.esm.dao.TagToGiftCertificate;
+import com.epam.esm.entity.impl.TagToGiftCertificateRelation;
 
 import java.util.List;
 import java.util.Optional;
