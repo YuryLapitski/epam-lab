@@ -19,7 +19,7 @@ import java.util.Optional;
 @Repository
 public class TagDaoImpl implements TagDao {
     private static final String FIND_TAG_BY_ID = "SELECT id, name FROM tag WHERE id = ?";
-    private static final String CREATE_TAG = "INSERT INTO tag (name) VALUES ?";
+    private static final String CREATE_TAG = "INSERT INTO tag (name) VALUES (?)";
     private static final String DELETE_TAG_BY_ID = "DELETE FROM tag WHERE id = ?";
     private static final String DELETE_TAG_BY_NAME = "DELETE FROM tag WHERE name = ?";
     private static final String FIND_ALL_TAGS = "SELECT id, name FROM tag";
