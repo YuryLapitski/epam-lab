@@ -31,11 +31,11 @@ public class TagController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteTag(@PathVariable Long id) {
+    public boolean deleteTag(@PathVariable long id) throws EntityNotFoundException {
         return tagService.delete(id);
     }
 
-    @GetMapping("/allTags")
+    @GetMapping()
     public List<Tag> findAll() {
         return tagService.findAll();
     }
