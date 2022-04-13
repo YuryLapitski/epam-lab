@@ -3,7 +3,9 @@ package com.epam.esm.service.impl;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.entity.impl.GiftCertificate;
 import com.epam.esm.exception.EntityNotFoundException;
+import com.epam.esm.exception.FieldValidationException;
 import com.epam.esm.service.GiftCertificateService;
+import com.epam.esm.validator.GiftCertificateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,33 @@ import java.util.Optional;
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private static final String GIFT_CERTIFICATE_NOT_FOUND_MSG = "Gift certificate with id=%d not found.";
+    private static final String INVALID_FIELDS_MSG = "Invalid fields";
+    private static final String INVALID_NAME_MSG = "Invalid name";
+    private static final String INVALID_DESCRIPTION_MSG = "Invalid description";
+    private static final String INVALID_PRICE_MSG = "Invalid price";
+    private static final String INVALID_DURATION_MSG = "Invalid duration";
+    private static final String NAME = "name";
+    private static final String DESCRIPTION = "description";
+    private static final String PRICE = "price";
+    private static final String DURATION = "duration";
+    private static final String LAST_UPDATE_DATE = "last_update_date";
     private final GiftCertificateDao giftCertificateDao;
+    private final GiftCertificateValidator giftCertificateValidator;
 
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao) {
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, GiftCertificateValidator giftCertificateValidator) {
         this.giftCertificateDao = giftCertificateDao;
+        this.giftCertificateValidator = giftCertificateValidator;
     }
 
     @Override
     public GiftCertificate create(GiftCertificate giftCertificate) {
+        if (!giftCertificateValidator.validateAll(giftCertificate.getName(),
+                giftCertificate.getDescription(),
+                giftCertificate.getPrice(),
+                giftCertificate.getDuration())) {
+            throw new FieldValidationException(INVALID_FIELDS_MSG);
+        }
         return giftCertificateDao.create(giftCertificate);
     }
 
@@ -62,24 +82,33 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private Map<String, Object> fillMap(GiftCertificate giftCertificate) {
         Map<String, Object> filledMap = new HashMap<>();
-        String name = giftCertificate.getName();
-        if (name != null) {
-            filledMap.put("name", name);
+        if (giftCertificate.getName() != null) {
+            if (!giftCertificateValidator.isNameValid(giftCertificate.getName())) {
+                throw new FieldValidationException(INVALID_NAME_MSG);
+            }
+            filledMap.put(NAME, giftCertificate.getName());
         }
-        String description = giftCertificate.getDescription();
-        if (description != null) {
-            filledMap.put("description", description);
+        if (giftCertificate.getDescription() != null) {
+            if (!giftCertificateValidator.isDescriptionValid(giftCertificate.getDescription())) {
+                throw new FieldValidationException(INVALID_DESCRIPTION_MSG);
+            }
+            filledMap.put(DESCRIPTION, giftCertificate.getDescription());
         }
-        double price = giftCertificate.getPrice();
-        if (price != 0.0) {
-            filledMap.put("price", price);
+        if (giftCertificate.getPrice() != 0.0) {
+            if (!giftCertificateValidator.isPriceValid(giftCertificate.getPrice())) {
+                throw new FieldValidationException(INVALID_PRICE_MSG);
+            }
+            filledMap.put(PRICE, giftCertificate.getPrice());
         }
-        short duration = giftCertificate.getDuration();
-        if (duration != 0) {
-            filledMap.put("duration", duration);
+        if (giftCertificate.getDuration() != 0) {
+            if (!giftCertificateValidator.isDurationValid(giftCertificate.getDuration())) {
+                throw new FieldValidationException(INVALID_DURATION_MSG);
+            }
+            filledMap.put(DURATION, giftCertificate.getDuration());
         }
+
         Timestamp lastUpdateDate = Timestamp.valueOf(LocalDateTime.now());
-        filledMap.put("last_update_date", lastUpdateDate);
+        filledMap.put(LAST_UPDATE_DATE, lastUpdateDate);
 
         return filledMap;
     }
