@@ -1,6 +1,7 @@
 package com.epam.esm.entity.impl;
 
 import com.epam.esm.entity.Entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,7 +21,9 @@ public class GiftCertificate implements Entity {
     private String description;
     private double price;
     private short duration;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime lastUpdateDate;
 
     @Override

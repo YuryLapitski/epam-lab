@@ -2,6 +2,7 @@ package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.entity.impl.GiftCertificate;
+import com.epam.esm.util.SqlQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,9 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
@@ -30,8 +29,6 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String DELETE_GIFT_CERTIFICATE_BY_NAME = "DELETE FROM gift_certificate WHERE name = ?";
     private static final String FIND_ALL_GIFT_CERTIFICATES = "SELECT id, name, description, price, duration, " +
             "create_date, last_update_date FROM gift_certificate";
-    private static final String UPDATE = "UPDATE gift_certificate SET name = ?, description = ?, price = ?," +
-            "duration = ?, last_update_date =? WHERE id = ?";
     private static final int FIRST_INDEX = 1;
     private static final int SECOND_INDEX = 2;
     private static final int THIRD_INDEX = 3;
@@ -52,6 +49,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     @Override
     public GiftCertificate create(GiftCertificate entity) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        LocalDateTime dateTime = LocalDateTime.now();
 
         jdbcTemplate.update(con -> {
             PreparedStatement preparedStatement = con.prepareStatement(CREATE_GIFT_CERTIFICATE,
@@ -60,12 +58,15 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             preparedStatement.setString(SECOND_INDEX, entity.getDescription());
             preparedStatement.setDouble(THIRD_INDEX, entity.getPrice());
             preparedStatement.setShort(FOURTH_INDEX, entity.getDuration());
-            preparedStatement.setTimestamp(FIFTH_INDEX, Timestamp.valueOf(entity.getCreateDate()));
-            preparedStatement.setTimestamp(SIXTH_INDEX, Timestamp.valueOf(entity.getLastUpdateDate()));
+            preparedStatement.setTimestamp(FIFTH_INDEX, Timestamp.valueOf(dateTime));
+            preparedStatement.setTimestamp(SIXTH_INDEX, Timestamp.valueOf(dateTime));
+
             return preparedStatement;
         }, keyHolder);
 
         entity.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        entity.setCreateDate(dateTime);
+        entity.setLastUpdateDate(dateTime);
 
         return entity;
     }
@@ -90,16 +91,14 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public GiftCertificate update(GiftCertificate entity) {
-        jdbcTemplate.update(UPDATE,
-                entity.getName(),
-                entity.getDescription(),
-                entity.getPrice(),
-                entity.getDuration(),
-                LocalDateTime.now(),
-                entity.getId());
+    public GiftCertificate update(long id, Map<String, Object> paramForUpdate) {
+        SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
+        String updateQuery = sqlQueryBuilder.buildQueryForUpdate(paramForUpdate);
+        List<Object> values = new ArrayList<>(paramForUpdate.values());
+        values.add(id);
+        jdbcTemplate.update(updateQuery, values.toArray());
 
-        return entity;
+        return findById(id).orElse(null);
     }
 
     @Override
