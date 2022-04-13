@@ -20,4 +20,15 @@ public class AppExceptionHandler {
                 .errorCode(40401)
                 .build();
     }
+
+    @ExceptionHandler(FieldValidationException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse handleFieldValidationException(FieldValidationException fieldValidationException) {
+        return ErrorResponse.builder()
+                .errorMessage(fieldValidationException.getMessage())
+                .errorStatus(HttpStatus.NOT_ACCEPTABLE)
+                .timestamp(now())
+                .errorCode(40601)
+                .build();
+    }
 }
