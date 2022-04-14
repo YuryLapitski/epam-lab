@@ -1,6 +1,6 @@
 package com.epam.esm.config;
 
-import com.epam.esm.entity.impl.Tag;
+import com.epam.esm.entity.Tag;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

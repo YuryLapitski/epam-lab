@@ -1,6 +1,6 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.entity.impl.Tag;
+import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.EntityNotFoundException;
 import com.epam.esm.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +20,11 @@ public class TagController {
 
     @GetMapping("/{id}")
     public Tag findById(@PathVariable long id) throws EntityNotFoundException {
-        System.out.println("Hello GET" + id);
         return tagService.findById(id);
     }
 
     @PostMapping
     public Tag create(@RequestBody Tag tag) {
-        System.out.println("Hello POST");
         return tagService.create(tag);
     }
 

@@ -1,6 +1,6 @@
 package com.epam.esm.dao.impl;
 
-import com.epam.esm.entity.impl.Tag;
+import com.epam.esm.entity.Tag;
 import com.epam.esm.dao.TagDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
