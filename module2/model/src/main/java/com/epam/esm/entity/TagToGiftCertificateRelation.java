@@ -1,6 +1,5 @@
-package com.epam.esm.entity.impl;
+package com.epam.esm.entity;
 
-import com.epam.esm.entity.Entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,9 +11,9 @@ import java.util.Objects;
 @Setter
 @RequiredArgsConstructor
 @ToString
-public class Tag implements Entity {
-    private long id;
-    private String name;
+public class TagToGiftCertificateRelation {
+    private long tagId;
+    private long giftCertificateId;
 
     @Override
     public boolean equals(Object o) {
@@ -26,13 +25,14 @@ public class Tag implements Entity {
             return false;
         }
 
-        Tag tag = (Tag) o;
+        TagToGiftCertificateRelation that = (TagToGiftCertificateRelation) o;
 
-        return id == tag.id && Objects.equals(name, tag.name);
+        return tagId == that.tagId &&
+                giftCertificateId == that.giftCertificateId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(tagId, giftCertificateId);
     }
 }

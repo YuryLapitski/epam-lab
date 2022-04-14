@@ -1,7 +1,7 @@
 package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
-import com.epam.esm.entity.impl.GiftCertificate;
+import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.util.SqlQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

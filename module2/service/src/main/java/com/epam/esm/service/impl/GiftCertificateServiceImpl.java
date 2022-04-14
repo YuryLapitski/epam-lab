@@ -1,7 +1,7 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
-import com.epam.esm.entity.impl.GiftCertificate;
+import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.EntityNotFoundException;
 import com.epam.esm.exception.FieldValidationException;
 import com.epam.esm.service.GiftCertificateService;

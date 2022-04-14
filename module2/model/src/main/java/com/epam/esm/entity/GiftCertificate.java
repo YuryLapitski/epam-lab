@@ -1,6 +1,5 @@
-package com.epam.esm.entity.impl;
+package com.epam.esm.entity;
 
-import com.epam.esm.entity.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.Objects;
 @Setter
 @RequiredArgsConstructor
 @ToString
-public class GiftCertificate implements Entity {
+public class GiftCertificate {
 
     private long id;
     private String name;
