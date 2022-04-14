@@ -1,5 +1,6 @@
 package com.epam.esm.config;
 
+import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.Tag;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,5 +46,10 @@ public class SpringJdbcConfig {
     @Bean
     public RowMapper<Tag> tagRowMapper() {
         return new BeanPropertyRowMapper<>(Tag.class);
+    }
+
+    @Bean
+    public RowMapper<GiftCertificate> giftCertificateRowMapper() {
+        return new BeanPropertyRowMapper<>(GiftCertificate.class);
     }
 }

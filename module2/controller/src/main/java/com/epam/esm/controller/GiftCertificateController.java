@@ -1,7 +1,6 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.exception.EntityNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class GiftCertificateController {
     }
 
     @GetMapping("/{id}")
-    public GiftCertificate findById(@PathVariable long id) throws EntityNotFoundException {
+    public GiftCertificate findById(@PathVariable long id) {
         return giftCertificateService.findById(id);
     }
 
@@ -29,7 +28,7 @@ public class GiftCertificateController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteTag(@PathVariable long id) throws EntityNotFoundException {
+    public boolean deleteTag(@PathVariable long id) {
         return giftCertificateService.delete(id);
     }
 
@@ -38,8 +37,9 @@ public class GiftCertificateController {
         return giftCertificateService.findAll();
     }
 
-    @PutMapping
-    public GiftCertificate update(@RequestBody GiftCertificate giftCertificate) throws EntityNotFoundException {
+    @PutMapping("/{id}")
+    public GiftCertificate update(@PathVariable long id, @RequestBody GiftCertificate giftCertificate) {
+        giftCertificate.setId(id);
         return giftCertificateService.update(giftCertificate);
     }
 }

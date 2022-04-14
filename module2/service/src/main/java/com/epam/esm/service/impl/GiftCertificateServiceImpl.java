@@ -2,8 +2,8 @@ package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.exception.EntityNotFoundException;
 import com.epam.esm.exception.FieldValidationException;
+import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.GiftCertificateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateValidator giftCertificateValidator;
 
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, GiftCertificateValidator giftCertificateValidator) {
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao,
+                                      GiftCertificateValidator giftCertificateValidator) {
         this.giftCertificateDao = giftCertificateDao;
         this.giftCertificateValidator = giftCertificateValidator;
     }
@@ -55,28 +56,30 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public GiftCertificate findById(long id) throws EntityNotFoundException {
-        return giftCertificateDao.findById(id).orElseThrow(() -> new EntityNotFoundException(String
+    public GiftCertificate findById(long id) {
+        return giftCertificateDao.findById(id).orElseThrow(() -> new GiftCertificateNotFoundException(String
                 .format(GIFT_CERTIFICATE_NOT_FOUND_MSG, id)));
     }
 
     @Override
-    public boolean delete(long id) throws EntityNotFoundException {
-        Optional<GiftCertificate> optionalTag = giftCertificateDao.findById(id);
-        if (optionalTag.isPresent()) {
+    public boolean delete(long id) {
+        Optional<GiftCertificate> optionalGiftCertificate = giftCertificateDao.findById(id);
+        if (optionalGiftCertificate.isPresent()) {
             return giftCertificateDao.delete(id);
         } else {
-            throw new EntityNotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_MSG, id));
+            String msg = String.format(GIFT_CERTIFICATE_NOT_FOUND_MSG, id);
+            throw new GiftCertificateNotFoundException(msg);
         }
     }
 
     @Override
-    public GiftCertificate update(GiftCertificate entity) throws EntityNotFoundException {
+    public GiftCertificate update(GiftCertificate entity) {
         if (giftCertificateDao.findById(entity.getId()).isPresent()) {
             Map<String, Object> paramMap = fillMap(entity);
             return giftCertificateDao.update(entity.getId(), paramMap);
         } else {
-            throw new EntityNotFoundException(String.format(GIFT_CERTIFICATE_NOT_FOUND_MSG, entity.getId()));
+            String msg = String.format(GIFT_CERTIFICATE_NOT_FOUND_MSG, entity.getId());
+            throw new GiftCertificateNotFoundException(msg);
         }
     }
 

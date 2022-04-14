@@ -1,7 +1,7 @@
 package com.epam.esm.service;
 
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.exception.EntityNotFoundException;
+import com.epam.esm.exception.TagNotFoundException;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ public interface GiftCertificateService {
 
     List<GiftCertificate> findAll();
 
-    GiftCertificate findById(long id) throws EntityNotFoundException;
+    GiftCertificate findById(long id) throws TagNotFoundException;
 
-    boolean delete(long id) throws EntityNotFoundException;
+    boolean delete(long id) throws TagNotFoundException;
 
-    GiftCertificate update(GiftCertificate entity) throws EntityNotFoundException;
+    GiftCertificate update(GiftCertificate entity) throws TagNotFoundException;
 }

@@ -10,9 +10,9 @@ import static java.time.LocalDateTime.now;
 @RestControllerAdvice
 public class AppExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(TagNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(EntityNotFoundException notFoundException) {
+    public ErrorResponse handleTagNotFoundException(TagNotFoundException notFoundException) {
         return ErrorResponse.builder()
                 .errorMessage(notFoundException.getMessage())
                 .errorStatus(HttpStatus.NOT_FOUND)
@@ -21,14 +21,36 @@ public class AppExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(GiftCertificateNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleGiftCertificateNotFoundException(GiftCertificateNotFoundException notFoundException) {
+        return ErrorResponse.builder()
+                .errorMessage(notFoundException.getMessage())
+                .errorStatus(HttpStatus.NOT_FOUND)
+                .timestamp(now())
+                .errorCode(40402)
+                .build();
+    }
+
+    @ExceptionHandler(GiftCertificatesNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleGiftCertificatesNotFoundException(GiftCertificatesNotFoundException notFoundException) {
+        return ErrorResponse.builder()
+                .errorMessage(notFoundException.getMessage())
+                .errorStatus(HttpStatus.NOT_FOUND)
+                .timestamp(now())
+                .errorCode(40403)
+                .build();
+    }
+
     @ExceptionHandler(FieldValidationException.class)
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleFieldValidationException(FieldValidationException fieldValidationException) {
         return ErrorResponse.builder()
                 .errorMessage(fieldValidationException.getMessage())
-                .errorStatus(HttpStatus.NOT_ACCEPTABLE)
+                .errorStatus(HttpStatus.BAD_REQUEST)
                 .timestamp(now())
-                .errorCode(40601)
+                .errorCode(40001)
                 .build();
     }
 }

@@ -2,7 +2,7 @@ package com.epam.esm.service.impl;
 
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.entity.Tag;
-import com.epam.esm.exception.EntityNotFoundException;
+import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.exception.FieldValidationException;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.TagValidator;
@@ -38,17 +38,17 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag findById(long id) throws EntityNotFoundException {
-        return tagDao.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format(TAG_NOT_FOUND_MSG, id)));
+    public Tag findById(long id) {
+        return tagDao.findById(id).orElseThrow(() -> new TagNotFoundException(String.format(TAG_NOT_FOUND_MSG, id)));
     }
 
     @Override
-    public boolean delete(long id) throws EntityNotFoundException {
+    public boolean delete(long id) {
         Optional<Tag> optionalTag = tagDao.findById(id);
         if (optionalTag.isPresent()) {
             return tagDao.delete(id);
         } else {
-            throw new EntityNotFoundException(String.format(TAG_NOT_FOUND_MSG, id));
+            throw new TagNotFoundException(String.format(TAG_NOT_FOUND_MSG, id));
         }
 
     }
