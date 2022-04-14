@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 @Component
 public class GiftCertificateValidatorImpl implements GiftCertificateValidator {
     private static final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z]{2,50}");
-    private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("[a-zA-Z0-9.,!?&-]{2,50}");
+    private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("[a-zA-Z0-9.,!?&-]{2,100}");
     private static final double MIN_PRICE = 0.0;
     private static final double MAX_PRICE = 9999.99;
     private static final short MIN_DURATION = 0;

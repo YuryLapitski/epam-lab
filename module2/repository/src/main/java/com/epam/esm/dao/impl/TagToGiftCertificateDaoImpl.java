@@ -29,7 +29,7 @@ public class TagToGiftCertificateDaoImpl implements TagToGiftCertificateDao {
 
     @Override
     public TagToGiftCertificateRelation createTagToGiftCertificateRelation(long tagId, long giftCertificateId) {
-        jdbcTemplate.update(CREATE_TAG_TO_GIFT_CERTIFICATE_RELATION, giftCertificateId, tagId);
+        jdbcTemplate.update(CREATE_TAG_TO_GIFT_CERTIFICATE_RELATION, tagId, giftCertificateId);
         TagToGiftCertificateRelation tagToGiftCertificate = new TagToGiftCertificateRelation();
         tagToGiftCertificate.setTagId(tagId);
         tagToGiftCertificate.setGiftCertificateId(giftCertificateId);
