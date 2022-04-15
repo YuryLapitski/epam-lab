@@ -2,6 +2,7 @@ package com.epam.esm.controller;
 
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
+import com.epam.esm.service.dto.GiftCertificateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,22 +18,27 @@ public class GiftCertificateController {
         this.giftCertificateService = giftCertificateService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public GiftCertificate findById(@PathVariable long id) {
         return giftCertificateService.findById(id);
     }
 
+    @GetMapping("/name/{name}")
+    public List<GiftCertificate> findByName(@PathVariable String name) {
+        return giftCertificateService.findByPartOfName(name);
+    }
+
     @PostMapping
-    public GiftCertificate create(@RequestBody GiftCertificate giftCertificate) {
-        return giftCertificateService.create(giftCertificate);
+    public GiftCertificateDto create(@RequestBody GiftCertificateDto giftCertificateDto) {
+        return giftCertificateService.create(giftCertificateDto);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteTag(@PathVariable long id) {
+    public boolean deleteGiftCertificate(@PathVariable long id) {
         return giftCertificateService.delete(id);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<GiftCertificate> findAll() {
         return giftCertificateService.findAll();
     }
