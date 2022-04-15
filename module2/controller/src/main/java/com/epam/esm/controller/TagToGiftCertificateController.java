@@ -27,7 +27,7 @@ public class TagToGiftCertificateController {
     }
 
     @GetMapping("/{name}")
-    public List<GiftCertificate> getGiftCertificateByTagName(@PathVariable String name) {
-        return tagToGiftCertificateService.getGiftCertificateByTagName(name);
+    public List<GiftCertificate> findGiftCertificatesByTagName(@PathVariable String name) {
+        return tagToGiftCertificateService.findGiftCertificatesByTagName(name);
     }
 }
