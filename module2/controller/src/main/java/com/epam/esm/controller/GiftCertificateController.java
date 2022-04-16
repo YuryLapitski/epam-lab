@@ -48,4 +48,10 @@ public class GiftCertificateController {
         giftCertificate.setId(id);
         return giftCertificateService.update(giftCertificate);
     }
+
+    @GetMapping("/{sortType}/{columnName}")
+    public List<GiftCertificate> findAllWithSort(@PathVariable String sortType,
+                                           @PathVariable String columnName) {
+        return giftCertificateService.findAllWithSort(columnName, sortType);
+    }
 }

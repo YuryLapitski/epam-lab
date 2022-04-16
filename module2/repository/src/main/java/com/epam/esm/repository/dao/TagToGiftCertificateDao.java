@@ -13,6 +13,4 @@ public interface TagToGiftCertificateDao {
     List<TagToGiftCertificateRelation> findByTagId(long tagID);
 
     void deleteByGiftCertificateId(long giftCertificateId);
-
-
 }

@@ -6,9 +6,7 @@ import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.repository.dao.TagDao;
 import com.epam.esm.repository.dao.TagToGiftCertificateDao;
 import com.epam.esm.service.dto.GiftCertificateDto;
-import com.epam.esm.service.exception.FieldValidationException;
-import com.epam.esm.service.exception.GiftCertificateAlreadyExistException;
-import com.epam.esm.service.exception.GiftCertificateNotFoundException;
+import com.epam.esm.service.exception.*;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.validator.GiftCertificateValidator;
 import com.epam.esm.service.validator.TagValidator;
@@ -24,12 +22,17 @@ import java.util.*;
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private static final String GIFT_CERTIFICATE_ID_NOT_FOUND_MSG = "Gift certificate with id=%d not found.";
     private static final String GIFT_CERTIFICATE_NAME_NOT_FOUND_MSG = "Gift certificate with name '%s' not found.";
-    private static final String GIFT_CERTIFICATE_ALREADY_EXIST_MSG = "Gift certificate with the name '%s' already exists";
+    private static final String GIFT_CERTIFICATE_ALREADY_EXIST_MSG = "Gift certificate with the name '%s' " +
+            "already exists";
+    private static final String CANNOT_UPDATE_GIFT_CERTIFICATE_MSG = "Cannot update gift certificate";
     private static final String INVALID_FIELDS_MSG = "Invalid fields";
     private static final String INVALID_NAME_MSG = "Invalid name";
     private static final String INVALID_DESCRIPTION_MSG = "Invalid description";
     private static final String INVALID_PRICE_MSG = "Invalid price";
     private static final String INVALID_DURATION_MSG = "Invalid duration";
+    private static final String INVALID_COLUMN_NAME_MSG = "Invalid column name. Please choose 'name', " +
+            "'description', 'price', 'duration', 'create_date', 'last_update_date' columns";
+    private static final String INVALID_SORT_TYPE_MSG = "Invalid sort type. Sort type can be only 'asc' or 'desc'.";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
     private static final String PRICE = "price";
@@ -65,6 +68,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         List<Tag> tagList = createTagsList(giftCertificateDto);
         giftCertificateDto.setGiftCertificate(giftCertificate);
         giftCertificateDto.setTags(tagList);
+
         return giftCertificateDto;
     }
 
@@ -106,11 +110,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             long tagId = tagDao.findByName(tag.getName()).get().getId();
             tagToGiftCertificateDao.createTagToGiftCertificateRelation(tagId, giftCertificate.getId());
         }
-        return tagList;
-    }
 
-    private Tag createTag(Tag tag) {
-        return tagDao.create(tag);
+        return tagList;
     }
 
     @Override
@@ -129,7 +130,20 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (giftCertificateDao.findByPartOfName(name).isEmpty()) {
             throw new GiftCertificateNotFoundException(String.format(GIFT_CERTIFICATE_NAME_NOT_FOUND_MSG, name));
         }
+
         return giftCertificateDao.findByPartOfName(name);
+    }
+
+    @Override
+    public List<GiftCertificate> findAllWithSort(String columnName, String sortType) {
+        if (!giftCertificateValidator.isColumnNameValid(columnName)) {
+            throw new InvalidColumnNameException(INVALID_COLUMN_NAME_MSG);
+        }
+        if (!giftCertificateValidator.isSortTypeValid(sortType)) {
+            throw new InvalidSortTypeException(INVALID_SORT_TYPE_MSG);
+        }
+
+        return giftCertificateDao.findAllWithSort(columnName, sortType);
     }
 
     @Transactional
@@ -138,6 +152,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         Optional<GiftCertificate> optionalGiftCertificate = giftCertificateDao.findById(id);
         if (optionalGiftCertificate.isPresent()) {
             tagToGiftCertificateDao.deleteByGiftCertificateId(id);
+
             return giftCertificateDao.delete(id);
         } else {
             String msg = String.format(GIFT_CERTIFICATE_ID_NOT_FOUND_MSG, id);
@@ -150,7 +165,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificate update(GiftCertificate entity) {
         if (giftCertificateDao.findById(entity.getId()).isPresent()) {
             Map<String, Object> paramMap = fillMap(entity);
-            return giftCertificateDao.update(entity.getId(), paramMap);
+
+            return giftCertificateDao.update(entity.getId(), paramMap).orElseThrow(() ->
+                    new CannotUpdateException(CANNOT_UPDATE_GIFT_CERTIFICATE_MSG));
         } else {
             String msg = String.format(GIFT_CERTIFICATE_ID_NOT_FOUND_MSG, entity.getId());
             throw new GiftCertificateNotFoundException(msg);

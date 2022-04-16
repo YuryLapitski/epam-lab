@@ -2,7 +2,6 @@ package com.epam.esm.service.validator.impl;
 
 import com.epam.esm.service.validator.GiftCertificateValidator;
 import org.springframework.stereotype.Component;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +15,14 @@ public class GiftCertificateValidatorImpl implements GiftCertificateValidator {
     private static final short MAX_DURATION = 365;
     private static final String SPACE_REGEX = "\\s+";
     private static final String EMPTY_STRING = "";
+    private static final String SORT_ASCENDING = "asc";
+    private static final String SORT_DESCENDING = "desc";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_DESCRIPTION = "description";
+    private static final String COLUMN_PRICE = "price";
+    private static final String COLUMN_DURATION = "duration";
+    private static final String COLUMN_CREATE_DATE = "create_date";
+    private static final String COLUMN_LAST_UPDATE_DATE = "last_update_date";
 
     @Override
     public boolean isNameValid(String name) {
@@ -44,5 +51,17 @@ public class GiftCertificateValidatorImpl implements GiftCertificateValidator {
                 && isDescriptionValid(description)
                 && isPriceValid(price)
                 && isDurationValid(duration);
+    }
+
+    @Override
+    public boolean isSortTypeValid(String sortType) {
+        return sortType.equalsIgnoreCase(SORT_ASCENDING) || sortType.equalsIgnoreCase(SORT_DESCENDING);
+    }
+
+    @Override
+    public boolean isColumnNameValid(String columnName) {
+        return columnName.equals(COLUMN_NAME) || columnName.equals(COLUMN_DESCRIPTION)
+                || columnName.equals(COLUMN_PRICE) || columnName.equals(COLUMN_DURATION)
+                || columnName.equals(COLUMN_CREATE_DATE) || columnName.equals(COLUMN_LAST_UPDATE_DATE);
     }
 }

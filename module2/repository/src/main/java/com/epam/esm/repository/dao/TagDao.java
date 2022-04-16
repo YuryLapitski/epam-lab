@@ -15,7 +15,4 @@ public interface TagDao {
     Optional<Tag> findByName(String name);
 
     boolean delete(long id);
-
-    boolean deleteTagByName(String name);
-
 }

@@ -15,11 +15,11 @@ public interface GiftCertificateDao {
 
     boolean delete(long id);
 
-    GiftCertificate update(long id, Map<String, Object> paramForUpdate);
-
-    boolean deleteGiftCertificateByName(String name);
+    Optional<GiftCertificate> update(long id, Map<String, Object> paramForUpdate);
 
     Optional<GiftCertificate> findByName(String tagName);
 
     List<GiftCertificate> findByPartOfName(String name);
+
+    List<GiftCertificate> findAllWithSort(String columnName, String sortType);
 }
