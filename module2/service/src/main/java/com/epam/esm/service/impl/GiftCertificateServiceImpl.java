@@ -50,7 +50,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Autowired
     public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao,
                                       TagDao tagDao,
-                                      TagToGiftCertificateDao tagToGiftCertificateDao, GiftCertificateValidator giftCertificateValidator,
+                                      TagToGiftCertificateDao tagToGiftCertificateDao,
+                                      GiftCertificateValidator giftCertificateValidator,
                                       TagValidator tagValidator) {
         this.giftCertificateDao = giftCertificateDao;
         this.tagDao = tagDao;
