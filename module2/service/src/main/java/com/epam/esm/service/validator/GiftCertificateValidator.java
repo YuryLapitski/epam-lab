@@ -10,4 +10,8 @@ public interface GiftCertificateValidator {
     boolean isDurationValid(short duration);
 
     boolean validateAll(String name, String description, double price, short duration);
+
+    boolean isSortTypeValid(String sortType);
+
+    boolean isColumnNameValid(String columnName);
 }

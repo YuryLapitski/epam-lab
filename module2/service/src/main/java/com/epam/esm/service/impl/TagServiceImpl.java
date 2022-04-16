@@ -37,6 +37,7 @@ public class TagServiceImpl implements TagService {
         if (!tagValidator.isNameValid(tag.getName())) {
             throw new FieldValidationException(INVALID_TAG_NAME_MSG);
         }
+
         return tagDao.create(tag);
     }
 
@@ -63,6 +64,5 @@ public class TagServiceImpl implements TagService {
         } else {
             throw new TagNotFoundException(String.format(TAG_NOT_FOUND_MSG, id));
         }
-
     }
 }

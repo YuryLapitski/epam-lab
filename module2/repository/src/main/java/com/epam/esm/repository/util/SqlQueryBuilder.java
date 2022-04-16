@@ -3,7 +3,9 @@ package com.epam.esm.repository.util;
 import java.util.Map;
 
 public class SqlQueryBuilder {
-    public final static String BLANK_FOR_UPDATE_GIFT_CERTIFICATE_BY_ID = "UPDATE gift_certificate SET ";
+    private static final String FIRST_PART_OF_UPDATE_GIFT_CERTIFICATE_STRING = "UPDATE gift_certificate SET ";
+    private static final String FIRST_PART_OF_FIND_AND_SORT_GIFT_CERTIFICATES_STRING = "SELECT id, name, " +
+            "description, price, duration, create_date, last_update_date FROM gift_certificate ORDER BY ";
     private static final String NAME = "name";
     private static final String DURATION = "duration";
     private static final String DESCRIPTION = "description";
@@ -13,7 +15,7 @@ public class SqlQueryBuilder {
     private static final String WHERE_ID = "WHERE id = ?";
 
     public String buildQueryForUpdate(Map<String, Object> paramMap) {
-        StringBuilder stringBuilder = new StringBuilder(BLANK_FOR_UPDATE_GIFT_CERTIFICATE_BY_ID);
+        StringBuilder stringBuilder = new StringBuilder(FIRST_PART_OF_UPDATE_GIFT_CERTIFICATE_STRING);
         for (String column : paramMap.keySet()) {
             switch (column) {
                 case NAME:
@@ -27,6 +29,11 @@ public class SqlQueryBuilder {
         }
         stringBuilder.append(LAST_UPDATE_DATE);
         stringBuilder.append(WHERE_ID);
+
         return stringBuilder.toString();
+    }
+
+    public String buildFindAndSortQuery(String columnName, String orderType) {
+        return FIRST_PART_OF_FIND_AND_SORT_GIFT_CERTIFICATES_STRING + columnName + " " + orderType;
     }
 }

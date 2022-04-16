@@ -102,6 +102,13 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
+    public List<GiftCertificate> findAllWithSort(String columnName, String sortType) {
+        SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
+        String findAllQuery = sqlQueryBuilder.buildFindAndSortQuery(columnName, sortType);
+        return jdbcTemplate.query(findAllQuery, rowMapper);
+    }
+
+    @Override
     public Optional<GiftCertificate> findByName(String name) {
         Optional<GiftCertificate> optionalGiftCertificate;
 
@@ -116,23 +123,18 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public GiftCertificate update(long id, Map<String, Object> paramForUpdate) {
+    public Optional<GiftCertificate> update(long id, Map<String, Object> paramForUpdate) {
         SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
         String updateQuery = sqlQueryBuilder.buildQueryForUpdate(paramForUpdate);
         List<Object> values = new ArrayList<>(paramForUpdate.values());
         values.add(id);
         jdbcTemplate.update(updateQuery, values.toArray());
 
-        return findById(id).orElse(null);
+        return findById(id);
     }
 
     @Override
     public boolean delete(long id) {
         return jdbcTemplate.update(DELETE_GIFT_CERTIFICATE_BY_ID, id) == NUMBER_OF_CHANGED_ROWS;
-    }
-
-    @Override
-    public boolean deleteGiftCertificateByName(String name) { //fixme: Maybe this method should be deleted
-        return jdbcTemplate.update(DELETE_GIFT_CERTIFICATE_BY_NAME, name) >= NUMBER_OF_CHANGED_ROWS;
     }
 }

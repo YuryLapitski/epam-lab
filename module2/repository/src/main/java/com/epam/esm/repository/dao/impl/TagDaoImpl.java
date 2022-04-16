@@ -87,10 +87,5 @@ public class TagDaoImpl implements TagDao {
     public boolean delete(long id) {
         return jdbcTemplate.update(DELETE_TAG_BY_ID, id) == NUMBER_OF_CHANGED_ROWS;
     }
-
-    @Override
-    public boolean deleteTagByName(String name) { //fixme: Maybe this method should be deleted
-        return jdbcTemplate.update(DELETE_TAG_BY_NAME, name) >= NUMBER_OF_CHANGED_ROWS;
-    }
 }
 

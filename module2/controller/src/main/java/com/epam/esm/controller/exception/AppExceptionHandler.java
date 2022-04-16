@@ -78,4 +78,37 @@ public class AppExceptionHandler {
                 .errorCode(40003)
                 .build();
     }
+
+    @ExceptionHandler(CannotUpdateException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleCannotUpdateException(CannotUpdateException cannotUpdateException) {
+        return ErrorResponse.builder()
+                .errorMessage(cannotUpdateException.getMessage())
+                .errorStatus(HttpStatus.NOT_FOUND)
+                .timestamp(now())
+                .errorCode(40404)
+                .build();
+    }
+
+    @ExceptionHandler(InvalidColumnNameException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleCannotUpdateException(InvalidColumnNameException columnNameException) {
+        return ErrorResponse.builder()
+                .errorMessage(columnNameException.getMessage())
+                .errorStatus(HttpStatus.BAD_REQUEST)
+                .timestamp(now())
+                .errorCode(40004)
+                .build();
+    }
+
+    @ExceptionHandler(InvalidSortTypeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleCannotUpdateException(InvalidSortTypeException sortTypeException) {
+        return ErrorResponse.builder()
+                .errorMessage(sortTypeException.getMessage())
+                .errorStatus(HttpStatus.BAD_REQUEST)
+                .timestamp(now())
+                .errorCode(40005)
+                .build();
+    }
 }

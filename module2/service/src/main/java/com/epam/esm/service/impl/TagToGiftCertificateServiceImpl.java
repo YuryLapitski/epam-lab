@@ -58,6 +58,7 @@ public class TagToGiftCertificateServiceImpl implements TagToGiftCertificateServ
         if (giftCertificates.isEmpty()) {
             throw new GiftCertificatesNotFoundException(String.format(GIFT_CERTIFICATES_NOT_FOUND_MSG, tagName));
         }
+
         return tagToGiftCertificateDao.findGiftCertificatesByTagName(tagName);
     }
 }

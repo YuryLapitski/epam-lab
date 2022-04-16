@@ -2,9 +2,7 @@ package com.epam.esm.service;
 
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.service.dto.GiftCertificateDto;
-
 import java.util.List;
-import java.util.Optional;
 
 public interface GiftCertificateService {
     GiftCertificateDto create(GiftCertificateDto giftCertificateDto);
@@ -14,6 +12,8 @@ public interface GiftCertificateService {
     GiftCertificate findById(long id);
 
     List<GiftCertificate> findByPartOfName(String name);
+
+    List<GiftCertificate> findAllWithSort(String columnName, String sortType);
 
     boolean delete(long id);
 
