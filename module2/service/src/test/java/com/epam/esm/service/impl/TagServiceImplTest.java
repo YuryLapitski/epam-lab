@@ -34,7 +34,6 @@ public class TagServiceImplTest {
     private static final long TAG_ID = 1L;
     private Tag tag;
     private TagDao tagDao;
-    private TagToGiftCertificateRelation tagToGiftCertificateRelation;
     private TagToGiftCertificateDao tagToGiftCertificateDao;
     private TagValidator tagValidator;
     private TagServiceImpl tagService;
@@ -46,7 +45,7 @@ public class TagServiceImplTest {
         tag = new Tag();
         tag.setId(ID);
         tag.setName(NAME);
-        tagToGiftCertificateRelation = new TagToGiftCertificateRelation();
+        TagToGiftCertificateRelation tagToGiftCertificateRelation = new TagToGiftCertificateRelation();
         tagToGiftCertificateRelation.setGiftCertificateId(GIFT_CERTIFICATE_ID);
         tagToGiftCertificateRelation.setTagId(TAG_ID);
         tagDao = mock(TagDaoImpl.class);
@@ -65,7 +64,7 @@ public class TagServiceImplTest {
         when(tagValidator.isNameValid(any())).thenReturn(true);
         when(tagDao.create(any())).thenReturn(expectedResult);
         Tag actualResult = tagService.create(tag);
-        assertEquals(actualResult, expectedResult);
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
@@ -79,7 +78,7 @@ public class TagServiceImplTest {
         List<Tag> expectedResult = tagList;
         when(tagDao.findAll()).thenReturn(expectedResult);
         List<Tag> actualResult = tagService.findAll();
-        assertEquals(actualResult, expectedResult);
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
