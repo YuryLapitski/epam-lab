@@ -4,8 +4,4 @@ public class InvalidColumnNameException extends RuntimeException {
     public InvalidColumnNameException(String message) {
         super(message);
     }
-
-    public InvalidColumnNameException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

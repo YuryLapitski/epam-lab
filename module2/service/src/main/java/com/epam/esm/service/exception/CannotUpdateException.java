@@ -4,8 +4,4 @@ public class CannotUpdateException extends RuntimeException {
     public CannotUpdateException(String message) {
         super(message);
     }
-
-    public CannotUpdateException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }
