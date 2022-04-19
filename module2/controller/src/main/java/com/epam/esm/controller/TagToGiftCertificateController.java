@@ -1,12 +1,12 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.TagToGiftCertificateRelation;
 import com.epam.esm.service.TagToGiftCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/tag-to-gift-certificates")
@@ -24,10 +24,5 @@ public class TagToGiftCertificateController {
         return tagToGiftCertificateService.createTagToGiftCertificateRelation(
                 tagToGiftCertificateRelation.getTagId(),
                 tagToGiftCertificateRelation.getGiftCertificateId());
-    }
-
-    @GetMapping("/{name}")
-    public List<GiftCertificate> findGiftCertificatesByTagName(@PathVariable String name) {
-        return tagToGiftCertificateService.findGiftCertificatesByTagName(name);
     }
 }

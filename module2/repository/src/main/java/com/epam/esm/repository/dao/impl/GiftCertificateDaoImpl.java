@@ -61,7 +61,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
                     Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(FIRST_INDEX, entity.getName());
             preparedStatement.setString(SECOND_INDEX, entity.getDescription());
-            preparedStatement.setDouble(THIRD_INDEX, entity.getPrice());
+            preparedStatement.setBigDecimal(THIRD_INDEX, entity.getPrice());
             preparedStatement.setShort(FOURTH_INDEX, entity.getDuration());
             preparedStatement.setTimestamp(FIFTH_INDEX, Timestamp.valueOf(dateTime));
             preparedStatement.setTimestamp(SIXTH_INDEX, Timestamp.valueOf(dateTime));

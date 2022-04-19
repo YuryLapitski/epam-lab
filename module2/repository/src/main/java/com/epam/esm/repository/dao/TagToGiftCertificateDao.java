@@ -1,9 +1,11 @@
 package com.epam.esm.repository.dao;
 
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.Tag;
 import com.epam.esm.entity.TagToGiftCertificateRelation;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TagToGiftCertificateDao {
     TagToGiftCertificateRelation createTagToGiftCertificateRelation(long giftCertificateId, long tagId);
@@ -12,5 +14,7 @@ public interface TagToGiftCertificateDao {
 
     List<TagToGiftCertificateRelation> findByTagId(long tagID);
 
-    void deleteByGiftCertificateId(long giftCertificateId);
+    List<Tag> findByGiftCertificateId(long giftCertificateId);
+
+    boolean deleteByGiftCertificateId(long giftCertificateId);
 }

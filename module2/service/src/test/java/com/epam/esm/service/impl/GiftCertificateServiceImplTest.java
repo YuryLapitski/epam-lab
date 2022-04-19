@@ -16,8 +16,10 @@ import com.epam.esm.service.validator.TagValidator;
 import com.epam.esm.service.validator.impl.GiftCertificateValidatorImpl;
 import com.epam.esm.service.validator.impl.TagValidatorImpl;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +37,7 @@ public class GiftCertificateServiceImplTest {
     private static final long ID = 10L;
     private static final String NAME = "Gift certificate";
     private static final String DESCRIPTION = "description";
-    private static final double PRICE = 99.99;
+    private static final BigDecimal PRICE = BigDecimal.valueOf(99.99);
     private static final short DURATION = 100;
     private static final long GIFT_CERTIFICATE_ID = 1L;
     private static final long TAG_ID = 1L;
@@ -46,11 +48,13 @@ public class GiftCertificateServiceImplTest {
     private Tag tag;
     private TagDao tagDao;
     private GiftCertificateDto giftCertificateDto;
+    private TagToGiftCertificateDao tagToGiftCertificateDao;
     private GiftCertificateValidator giftCertificateValidator;
     private TagValidator tagValidator;
     private GiftCertificateService giftCertificateService;
     private List<Tag> tagList;
     private List<GiftCertificate> giftCertificateList;
+    private List<GiftCertificateDto> giftCertificateDtoList;
 
     @BeforeAll
     void beforeAll() {
@@ -60,26 +64,32 @@ public class GiftCertificateServiceImplTest {
         giftCertificate.setDescription(DESCRIPTION);
         giftCertificate.setPrice(PRICE);
         giftCertificate.setDuration(DURATION);
-        tag = new Tag();
-        tag.setId(TAG_ID);
-        tag.setName(TAG_NAME);
         TagToGiftCertificateRelation tagToGiftCertificateRelation = new TagToGiftCertificateRelation();
-        tagToGiftCertificateRelation.setGiftCertificateId(GIFT_CERTIFICATE_ID);
         tagToGiftCertificateRelation.setTagId(TAG_ID);
+        tagToGiftCertificateRelation.setGiftCertificateId(GIFT_CERTIFICATE_ID);
         giftCertificateDao = mock(GiftCertificateDaoImpl.class);
         tagDao = mock(TagDaoImpl.class);
-        TagToGiftCertificateDao tagToGiftCertificateDao = mock(TagToGiftCertificateDao.class);
+        tagToGiftCertificateDao = mock(TagToGiftCertificateDao.class);
         giftCertificateValidator = mock(GiftCertificateValidatorImpl.class);
         tagValidator = mock(TagValidatorImpl.class);
         giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao,
                 tagToGiftCertificateDao, giftCertificateValidator, tagValidator);
+        giftCertificateList = new ArrayList<>();
+        giftCertificateList.add(giftCertificate);
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        tag = new Tag();
+        tag.setId(TAG_ID);
+        tag.setName(TAG_NAME);
         tagList = new ArrayList<>();
         tagList.add(tag);
         giftCertificateDto = new GiftCertificateDto();
         giftCertificateDto.setGiftCertificate(giftCertificate);
         giftCertificateDto.setTags(tagList);
-        giftCertificateList = new ArrayList<>();
-        giftCertificateList.add(giftCertificate);
+        giftCertificateDtoList = new ArrayList<>();
+        giftCertificateDtoList.add(giftCertificateDto);
     }
 
     @Test
@@ -88,7 +98,7 @@ public class GiftCertificateServiceImplTest {
         when(tagDao.findByName(anyString())).thenReturn(Optional.ofNullable(tag));
         when(tagDao.create(any())).thenReturn(tag);
         when(tagValidator.isNameValid(anyString())).thenReturn(true);
-        when(giftCertificateValidator.validateAll(anyString(), anyString(), anyDouble(), anyShort())).thenReturn(true);
+        when(giftCertificateValidator.validateAll(anyString(), anyString(), any(), anyShort())).thenReturn(true);
         when(giftCertificateDao.findByName(anyString())).thenReturn(Optional.empty());
         GiftCertificateDto actualResult = giftCertificateService.create(giftCertificateDto);
         assertEquals(expectedResult, actualResult);
@@ -97,57 +107,57 @@ public class GiftCertificateServiceImplTest {
     @Test
     void testCreateShouldThrowFieldValidationExceptionWhenTagInvalid() {
         when(tagValidator.isNameValid(anyString())).thenReturn(false);
-        when(giftCertificateValidator.validateAll(anyString(), anyString(), anyDouble(), anyShort())).thenReturn(true);
+        when(giftCertificateValidator.validateAll(anyString(), anyString(), any(), anyShort())).thenReturn(true);
         assertThrows(FieldValidationException.class, () -> giftCertificateService.create(giftCertificateDto));
     }
 
     @Test
     void testCreateShouldThrowFieldValidationExceptionWhenGiftCertificateInvalid() {
-        giftCertificateDto.setGiftCertificate(giftCertificate);
-        giftCertificateDto.setTags(tagList);
         when(tagValidator.isNameValid(anyString())).thenReturn(true);
-        when(giftCertificateValidator.validateAll(anyString(), anyString(), anyDouble(), anyShort())).thenReturn(false);
+        when(giftCertificateValidator.validateAll(anyString(), anyString(), any(), anyShort())).thenReturn(false);
         assertThrows(FieldValidationException.class, () -> giftCertificateService.create(giftCertificateDto));
     }
 
     @Test
     void testCreateShouldThrowGiftCertificateAlreadyExistException() {
-        giftCertificateDto.setGiftCertificate(giftCertificate);
-        giftCertificateDto.setTags(tagList);
         when(tagValidator.isNameValid(anyString())).thenReturn(true);
-        when(giftCertificateValidator.validateAll(anyString(), anyString(), anyDouble(), anyShort())).thenReturn(true);
+        when(giftCertificateValidator.validateAll(anyString(), anyString(), any(), anyShort())).thenReturn(true);
         when(giftCertificateDao.findByName(anyString())).thenReturn(Optional.of(giftCertificate));
         assertThrows(GiftCertificateAlreadyExistException.class,
                 () -> giftCertificateService.create(giftCertificateDto));
     }
 
     @Test
-    void testFindByAll() {
-        List<GiftCertificate> expectedResult = giftCertificateList;
-        when(giftCertificateDao.findAll()).thenReturn(expectedResult);
-        List<GiftCertificate> actualResult = giftCertificateService.findAll();
+    void testFindAll() {
+        List<GiftCertificateDto> expectedResult = giftCertificateDtoList;
+        when(giftCertificateDao.findAll()).thenReturn(giftCertificateList);
+        when(tagToGiftCertificateDao.findByGiftCertificateId(anyLong())).thenReturn(tagList);
+        List<GiftCertificateDto> actualResult = giftCertificateService.findAll();
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     void testFindById() {
-        GiftCertificate expectedResult = giftCertificate;
-        when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.ofNullable(expectedResult));
-        GiftCertificate actualResult = giftCertificateService.findById(giftCertificate.getId());
+        GiftCertificateDto expectedResult = giftCertificateDto;
+        when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.ofNullable(giftCertificate));
+        when(tagToGiftCertificateDao.findByGiftCertificateId(anyLong())).thenReturn(tagList);
+        GiftCertificateDto actualResult = giftCertificateService
+                .findByGiftCertificateId(GIFT_CERTIFICATE_ID);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     void testFindByIdShouldThrowGiftCertificateNotFoundException() {
         when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(GiftCertificateNotFoundException.class, () -> giftCertificateService.findById(tag.getId()));
+        assertThrows(GiftCertificateNotFoundException.class, () -> giftCertificateService
+                .findByGiftCertificateId(tag.getId()));
     }
 
     @Test
     void testFindByPartOfName() {
-        List<GiftCertificate> expectedResult = giftCertificateList;
-        when(giftCertificateDao.findByPartOfName(anyString())).thenReturn(expectedResult);
-        List<GiftCertificate> actualResult = giftCertificateService.findByPartOfName(giftCertificate.getName());
+        List<GiftCertificateDto> expectedResult = giftCertificateDtoList;
+        when(giftCertificateDao.findByPartOfName(anyString())).thenReturn(giftCertificateList);
+        List<GiftCertificateDto> actualResult = giftCertificateService.findByPartOfName(giftCertificate.getName());
         assertEquals(expectedResult, actualResult);
     }
 
@@ -160,11 +170,11 @@ public class GiftCertificateServiceImplTest {
 
     @Test
     void testFindAllWithSort() {
-        List<GiftCertificate> expectedResult = giftCertificateList;
+        List<GiftCertificateDto> expectedResult = giftCertificateDtoList;
         when(giftCertificateValidator.isColumnNameValid(anyString())).thenReturn(true);
         when(giftCertificateValidator.isSortTypeValid(anyString())).thenReturn(true);
-        when(giftCertificateDao.findAllWithSort(anyString(), anyString())).thenReturn(expectedResult);
-        List<GiftCertificate> actualResult = giftCertificateService
+        when(giftCertificateDao.findAllWithSort(anyString(), anyString())).thenReturn(giftCertificateList);
+        List<GiftCertificateDto> actualResult = giftCertificateService
                 .findAllWithSort(ANY_STRING, ANY_STRING);
         assertEquals(expectedResult, actualResult);
     }
@@ -201,14 +211,14 @@ public class GiftCertificateServiceImplTest {
 
     @Test
     void testUpdate() {
-        GiftCertificate expectedResult = giftCertificate;
+        GiftCertificateDto expectedResult = giftCertificateDto;
         when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.ofNullable(giftCertificate));
         when((giftCertificateDao.update(anyLong(), anyMap()))).thenReturn(Optional.ofNullable(giftCertificate));
         when(giftCertificateValidator.isNameValid(anyString())).thenReturn(true);
         when(giftCertificateValidator.isDescriptionValid(anyString())).thenReturn(true);
-        when(giftCertificateValidator.isPriceValid(anyDouble())).thenReturn(true);
+        when(giftCertificateValidator.isPriceValid(any())).thenReturn(true);
         when(giftCertificateValidator.isDurationValid(anyShort())).thenReturn(true);
-        GiftCertificate actualResult = giftCertificateService.update(giftCertificate);
+        GiftCertificateDto actualResult = giftCertificateService.update(giftCertificate);
         assertEquals(expectedResult, actualResult);
     }
 
@@ -218,7 +228,7 @@ public class GiftCertificateServiceImplTest {
         when(giftCertificateDao.update(anyLong(), anyMap())).thenReturn(Optional.empty());
         when(giftCertificateValidator.isNameValid(anyString())).thenReturn(true);
         when(giftCertificateValidator.isDescriptionValid(anyString())).thenReturn(true);
-        when(giftCertificateValidator.isPriceValid(anyDouble())).thenReturn(true);
+        when(giftCertificateValidator.isPriceValid(any())).thenReturn(true);
         when(giftCertificateValidator.isDurationValid(anyShort())).thenReturn(true);
         assertThrows(CannotUpdateException.class, () -> giftCertificateService.update(giftCertificate));
     }

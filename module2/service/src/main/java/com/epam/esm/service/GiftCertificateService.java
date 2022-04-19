@@ -7,15 +7,15 @@ import java.util.List;
 public interface GiftCertificateService {
     GiftCertificateDto create(GiftCertificateDto giftCertificateDto);
 
-    List<GiftCertificate> findAll();
+    List<GiftCertificateDto> findAll();
 
-    GiftCertificate findById(long id);
+    GiftCertificateDto findByGiftCertificateId(long id);
 
-    List<GiftCertificate> findByPartOfName(String name);
+    List<GiftCertificateDto> findByPartOfName(String name);
 
-    List<GiftCertificate> findAllWithSort(String columnName, String sortType);
+    List<GiftCertificateDto> findAllWithSort(String columnName, String sortType);
 
     boolean delete(long id);
 
-    GiftCertificate update(GiftCertificate entity);
+    GiftCertificateDto update(GiftCertificate entity);
 }

@@ -23,15 +23,21 @@ public class TagToGiftCertificateDaoImpl implements TagToGiftCertificateDao {
             "WHERE gift_certificate_id = ?";
     private static final String FIND_BY_TAG_ID = "SELECT tag_id, gift_certificate_id FROM " +
             "tag_gift_certificate WHERE tag_id = ?";
+    private static final String FIND_BY_GIFT_CERTIFICATE_ID = "SELECT tag.id, tag.name FROM tag " +
+            "JOIN tag_gift_certificate tgc ON tag.id = tgc.tag_id WHERE gift_certificate_id = ?";
+    private static final int NUMBER_OF_CHANGED_ROWS = 1;
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Tag> tagRowMapper;
     private final RowMapper<GiftCertificate> giftCertificateRowMapper;
     private final RowMapper<TagToGiftCertificateRelation> tagToGiftCertificateRelationRowMapper;
 
     @Autowired
     public TagToGiftCertificateDaoImpl(JdbcTemplate jdbcTemplate,
+                                       RowMapper<Tag> tagRowMapper,
                                        RowMapper<GiftCertificate> giftCertificateRowMapper,
                                        RowMapper<TagToGiftCertificateRelation> tagToGiftCertificateRelationRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.tagRowMapper = tagRowMapper;
         this.giftCertificateRowMapper = giftCertificateRowMapper;
         this.tagToGiftCertificateRelationRowMapper = tagToGiftCertificateRelationRowMapper;
     }
@@ -57,7 +63,12 @@ public class TagToGiftCertificateDaoImpl implements TagToGiftCertificateDao {
     }
 
     @Override
-    public void deleteByGiftCertificateId(long giftCertificateId) {
-        jdbcTemplate.update(DELETE_BY_GIFT_CERTIFICATE_ID, giftCertificateId);
+    public List<Tag> findByGiftCertificateId(long giftCertificateId) {
+        return jdbcTemplate.query(FIND_BY_GIFT_CERTIFICATE_ID, tagRowMapper, giftCertificateId);
+    }
+
+    @Override
+    public boolean deleteByGiftCertificateId(long giftCertificateId) {
+        return jdbcTemplate.update(DELETE_BY_GIFT_CERTIFICATE_ID, giftCertificateId) >= NUMBER_OF_CHANGED_ROWS;
     }
 }

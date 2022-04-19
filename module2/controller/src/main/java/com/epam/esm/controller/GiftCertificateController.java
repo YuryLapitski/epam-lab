@@ -2,8 +2,10 @@ package com.epam.esm.controller;
 
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
+import com.epam.esm.service.TagToGiftCertificateService;
 import com.epam.esm.service.dto.GiftCertificateDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,19 +14,22 @@ import java.util.List;
 @RequestMapping(value = "/gift-certificates")
 public class GiftCertificateController {
     private final GiftCertificateService giftCertificateService;
+    private final TagToGiftCertificateService tagToGiftCertificateService;
 
     @Autowired
-    public GiftCertificateController(GiftCertificateService giftCertificateService) {
+    public GiftCertificateController(GiftCertificateService giftCertificateService,
+                                     TagToGiftCertificateService tagToGiftCertificateService) {
         this.giftCertificateService = giftCertificateService;
+        this.tagToGiftCertificateService = tagToGiftCertificateService;
     }
 
-    @GetMapping("/id/{id}")
-    public GiftCertificate findById(@PathVariable long id) {
-        return giftCertificateService.findById(id);
+    @GetMapping("/{id}")
+    public GiftCertificateDto findById(@PathVariable long id) {
+        return giftCertificateService.findByGiftCertificateId(id);
     }
 
-    @GetMapping("/name/{name}")
-    public List<GiftCertificate> findByName(@PathVariable String name) {
+    @GetMapping("/name")
+    public List<GiftCertificateDto> findByName(@RequestParam(name = "name") String name) {
         return giftCertificateService.findByPartOfName(name);
     }
 
@@ -34,24 +39,30 @@ public class GiftCertificateController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteGiftCertificate(@PathVariable long id) {
-        return giftCertificateService.delete(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteGiftCertificate(@PathVariable long id) {
+        giftCertificateService.delete(id);
     }
 
     @GetMapping
-    public List<GiftCertificate> findAll() {
+    public List<GiftCertificateDto> findAll() {
         return giftCertificateService.findAll();
     }
 
     @PutMapping("/{id}")
-    public GiftCertificate update(@PathVariable long id, @RequestBody GiftCertificate giftCertificate) {
+    public GiftCertificateDto update(@PathVariable long id, @RequestBody GiftCertificate giftCertificate) {
         giftCertificate.setId(id);
         return giftCertificateService.update(giftCertificate);
     }
 
-    @GetMapping("/{sortType}/{columnName}")
-    public List<GiftCertificate> findAllWithSort(@PathVariable String sortType,
-                                           @PathVariable String columnName) {
+    @GetMapping("/sort")
+    public List<GiftCertificateDto> findAllWithSort(@RequestParam(name = "columnName") String columnName,
+                                                 @RequestParam(name = "sortType") String sortType) {
         return giftCertificateService.findAllWithSort(columnName, sortType);
+    }
+
+    @GetMapping("/by-tag")
+    public List<GiftCertificateDto> findGiftCertificatesByTagName(@RequestParam(name = "tagName") String tagName) {
+        return tagToGiftCertificateService.findGiftCertificatesByTagName(tagName);
     }
 }

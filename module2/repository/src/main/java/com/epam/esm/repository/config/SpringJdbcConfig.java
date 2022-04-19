@@ -5,18 +5,25 @@ import com.epam.esm.entity.Tag;
 import com.epam.esm.entity.TagToGiftCertificateRelation;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @Configuration
+@ComponentScan("com.epam.esm")
 @PropertySource("classpath:database.properties")
+@EnableTransactionManagement
 public class SpringJdbcConfig {
+    private static final String SQL_SETUP = "classpath:dbSetup.sql";
+    private static final String SQL_INIT_DEV = "classpath:dbInitDev.sql";
+
     @Value("${url}")
     private String dataBaseUrl;
     @Value("${user}")
@@ -40,8 +47,28 @@ public class SpringJdbcConfig {
     }
 
     @Bean
+    @Profile("dev")
+    public EmbeddedDatabase embeddedDatabase() {
+        EmbeddedDatabaseBuilder databaseBuilder = new EmbeddedDatabaseBuilder();
+        return databaseBuilder
+                .generateUniqueName(true)
+                .setType(EmbeddedDatabaseType.H2)
+                .setScriptEncoding("UTF-8")
+                .ignoreFailedDrops(true)
+                .addScript(SQL_SETUP)
+                .addScript(SQL_INIT_DEV)
+                .build();
+    }
+
+    @Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    @Profile("dev")
+    public JdbcTemplate jdbcTemplate(EmbeddedDatabase embeddedDatabase) {
+        return new JdbcTemplate(embeddedDatabase);
     }
 
     @Bean
