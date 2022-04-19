@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,9 +15,9 @@ public class GiftCertificateValidatorImplTest {
     private static final String INVALID_NAME = "@#$%^&*";
     private static final String VALID_DESCRIPTION = "description";
     private static final String INVALID_DESCRIPTION = "";
-    private static final double VALID_PRICE = 99.99;
-    private static final double INVALID_HIGH_PRICE = 10000.00;
-    private static final double INVALID_LOW_PRICE = -10.00;
+    private static final BigDecimal VALID_PRICE = BigDecimal.valueOf(99.99);
+    private static final BigDecimal INVALID_HIGH_PRICE = BigDecimal.valueOf(10000.00);
+    private static final BigDecimal INVALID_LOW_PRICE = BigDecimal.valueOf(-10.00);
     private static final short VALID_DURATION = 100;
     private static final short INVALID_HIGH_DURATION = 500;
     private static final short INVALID_LOW_DURATION = -10;

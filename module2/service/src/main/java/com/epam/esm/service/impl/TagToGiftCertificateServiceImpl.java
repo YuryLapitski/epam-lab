@@ -6,6 +6,7 @@ import com.epam.esm.repository.dao.TagToGiftCertificateDao;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.entity.TagToGiftCertificateRelation;
+import com.epam.esm.service.dto.GiftCertificateDto;
 import com.epam.esm.service.exception.GiftCertificateNotFoundException;
 import com.epam.esm.service.exception.GiftCertificatesNotFoundException;
 import com.epam.esm.service.exception.TagNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,12 +55,30 @@ public class TagToGiftCertificateServiceImpl implements TagToGiftCertificateServ
     }
 
     @Override
-    public List<GiftCertificate> findGiftCertificatesByTagName(String tagName) {
+    public List<GiftCertificateDto> findGiftCertificatesByTagName(String tagName) {
         List<GiftCertificate> giftCertificates = tagToGiftCertificateDao.findGiftCertificatesByTagName(tagName);
         if (giftCertificates.isEmpty()) {
             throw new GiftCertificatesNotFoundException(String.format(GIFT_CERTIFICATES_NOT_FOUND_MSG, tagName));
         }
 
-        return tagToGiftCertificateDao.findGiftCertificatesByTagName(tagName);
+        return createGiftCertificateDtoList(giftCertificates);
+    }
+
+    private GiftCertificateDto createGiftCertificateDto(GiftCertificate giftCertificate) {
+        List<Tag> tags = new ArrayList<>(tagToGiftCertificateDao.findByGiftCertificateId(giftCertificate.getId()));
+        GiftCertificateDto giftCertificateDto = new GiftCertificateDto();
+        giftCertificateDto.setGiftCertificate(giftCertificate);
+        giftCertificateDto.setTags(tags);
+
+        return giftCertificateDto;
+    }
+
+    private List<GiftCertificateDto> createGiftCertificateDtoList(List<GiftCertificate> giftCertificates) {
+        List<GiftCertificateDto> giftCertificateDtoList = new ArrayList<>();
+        for (GiftCertificate giftCertificate : giftCertificates) {
+            GiftCertificateDto giftCertificateDto = createGiftCertificateDto(giftCertificate);
+            giftCertificateDtoList.add(giftCertificateDto);
+        }
+        return giftCertificateDtoList;
     }
 }

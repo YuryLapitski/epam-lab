@@ -22,7 +22,6 @@ public class TagDaoImpl implements TagDao {
     private static final String FIND_TAG_BY_NAME = "SELECT id, name FROM tag WHERE name = ?";
     private static final String CREATE_TAG = "INSERT INTO tag (name) VALUES (?)";
     private static final String DELETE_TAG_BY_ID = "DELETE FROM tag WHERE id = ?";
-    private static final String DELETE_TAG_BY_NAME = "DELETE FROM tag WHERE name = ?";
     private static final String FIND_ALL_TAGS = "SELECT id, name FROM tag";
     private static final int FIRST_INDEX = 1;
     private static final int NUMBER_OF_CHANGED_ROWS = 1;

@@ -7,6 +7,7 @@ import com.epam.esm.repository.dao.GiftCertificateDao;
 import com.epam.esm.repository.dao.TagDao;
 import com.epam.esm.repository.dao.TagToGiftCertificateDao;
 import com.epam.esm.repository.dao.impl.TagDaoImpl;
+import com.epam.esm.service.dto.GiftCertificateDto;
 import com.epam.esm.service.exception.GiftCertificateNotFoundException;
 import com.epam.esm.service.exception.GiftCertificatesNotFoundException;
 import com.epam.esm.service.exception.TagNotFoundException;
@@ -39,6 +40,8 @@ public class TagToGiftCertificateServiceImplTest {
     private GiftCertificateDao giftCertificateDao;
     private TagToGiftCertificateServiceImpl tagToGiftCertificateService;
     private List<GiftCertificate> giftCertificateList;
+    private List<Tag> tagList;
+    private List<GiftCertificateDto> giftCertificateDtoList;
 
     @BeforeAll
     void beforeAll() {
@@ -58,6 +61,13 @@ public class TagToGiftCertificateServiceImplTest {
                 giftCertificateDao, tagDao);
         giftCertificateList = new ArrayList<>();
         giftCertificateList.add(giftCertificate);
+        tagList = new ArrayList<>();
+        tagList.add(tag);
+        GiftCertificateDto giftCertificateDto = new GiftCertificateDto();
+        giftCertificateDto.setGiftCertificate(giftCertificate);
+        giftCertificateDto.setTags(tagList);
+        giftCertificateDtoList = new ArrayList<>();
+        giftCertificateDtoList.add(giftCertificateDto);
     }
 
     @Test
@@ -90,9 +100,10 @@ public class TagToGiftCertificateServiceImplTest {
 
     @Test
     void testFindGiftCertificatesByTagName() {
-        List<GiftCertificate> expectedResult = giftCertificateList;
-        when(tagToGiftCertificateDao.findGiftCertificatesByTagName(anyString())).thenReturn(expectedResult);
-        List<GiftCertificate> actualResult = tagToGiftCertificateService
+        List<GiftCertificateDto> expectedResult = giftCertificateDtoList;
+        when(tagToGiftCertificateDao.findGiftCertificatesByTagName(anyString())).thenReturn(giftCertificateList);
+        when(tagToGiftCertificateDao.findByGiftCertificateId(anyLong())).thenReturn(tagList);
+        List<GiftCertificateDto> actualResult = tagToGiftCertificateService
                 .findGiftCertificatesByTagName(TAG_NAME);
         assertEquals(expectedResult, actualResult);
     }
