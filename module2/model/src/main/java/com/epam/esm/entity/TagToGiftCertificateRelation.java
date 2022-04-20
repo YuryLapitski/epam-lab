@@ -12,8 +12,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @ToString
 public class TagToGiftCertificateRelation {
-    private long tagId;
-    private long giftCertificateId;
+    private Long tagId;
+    private Long giftCertificateId;
 
     @Override
     public boolean equals(Object o) {
@@ -27,8 +27,8 @@ public class TagToGiftCertificateRelation {
 
         TagToGiftCertificateRelation that = (TagToGiftCertificateRelation) o;
 
-        return tagId == that.tagId &&
-                giftCertificateId == that.giftCertificateId;
+        return Objects.equals(tagId, that.tagId) &&
+                Objects.equals(giftCertificateId, that.giftCertificateId);
     }
 
     @Override

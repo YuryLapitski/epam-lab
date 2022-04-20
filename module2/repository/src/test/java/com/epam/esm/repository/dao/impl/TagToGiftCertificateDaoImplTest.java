@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ContextConfiguration(classes = {SpringJdbcConfig.class})
 @ActiveProfiles("dev")
 public class TagToGiftCertificateDaoImplTest {
-    private static final long NEW_TAG_ID = 4L;
-    private static final long NEW_GIFT_CERTIFICATE_ID = 4L;
-    private static final long TAG_ID = 1L;
-    private static final long GIFT_CERTIFICATE_ID = 2L;
+    private static final Long NEW_TAG_ID = 4L;
+    private static final Long NEW_GIFT_CERTIFICATE_ID = 4L;
+    private static final Long TAG_ID = 1L;
+    private static final Long GIFT_CERTIFICATE_ID = 2L;
     private static final String TAG_NAME = "first";
     private static final int EXPECTED_LIST_SIZE = 3;
 

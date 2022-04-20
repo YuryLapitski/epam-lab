@@ -35,7 +35,7 @@ public interface TagDao {
      * @param id id of the tag to find
      * @return founded Optional of tag
      */
-    Optional<Tag> findById(long id);
+    Optional<Tag> findById(Long id);
 
     /**
      * Searches for tag by tag name
@@ -51,5 +51,5 @@ public interface TagDao {
      * @param id id of the tag to delete
      * @return true if the tag was created
      */
-    boolean delete(long id);
+    boolean delete(Long id);
 }

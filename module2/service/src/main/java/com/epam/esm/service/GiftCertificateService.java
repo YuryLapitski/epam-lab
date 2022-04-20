@@ -59,7 +59,7 @@ public interface GiftCertificateService {
      *
      * @param id id of the пшае certificate to delete
      */
-    boolean delete(long id);
+    boolean delete(Long id);
 
     /**
      * Updates existing gift certificate

@@ -57,7 +57,7 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public Optional<Tag> findById(long id) {
+    public Optional<Tag> findById(Long id) {
         Optional<Tag> optionalTag;
 
         try {
@@ -83,7 +83,7 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         return jdbcTemplate.update(DELETE_TAG_BY_ID, id) == NUMBER_OF_CHANGED_ROWS;
     }
 }

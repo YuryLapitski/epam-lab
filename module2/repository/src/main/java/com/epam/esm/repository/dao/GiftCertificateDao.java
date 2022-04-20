@@ -35,7 +35,7 @@ public interface GiftCertificateDao {
      * @param id id of the gift certificate to find
      * @return founded Optional of gift certificate
      */
-    Optional<GiftCertificate> findById(long id);
+    Optional<GiftCertificate> findById(Long id);
 
     /**
      * Deletes gift certificate
@@ -43,7 +43,7 @@ public interface GiftCertificateDao {
      * @param id id of the gift certificate to delete
      * @return true if the gift certificate was deleted
      */
-    boolean delete(long id);
+    boolean delete(Long id);
 
     /**
      * Updates existing gift certificate
@@ -52,7 +52,7 @@ public interface GiftCertificateDao {
      * @param paramForUpdate parameters of gift certificate for update
      * @return updated GiftCertificateDto
      */
-    Optional<GiftCertificate> update(long id, Map<String, Object> paramForUpdate);
+    Optional<GiftCertificate> update(Long id, Map<String, Object> paramForUpdate);
 
     /**
      * Searches for gift certificate by name

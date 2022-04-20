@@ -39,7 +39,7 @@ public class TagToGiftCertificateServiceImpl implements TagToGiftCertificateServ
 
     @Transactional
     @Override
-    public TagToGiftCertificateRelation createTagToGiftCertificateRelation(long tagId, long giftCertificateId) {
+    public TagToGiftCertificateRelation createTagToGiftCertificateRelation(Long tagId, Long giftCertificateId) {
         Optional<Tag> optionalTag = tagDao.findById(tagId);
         if (!optionalTag.isPresent()) {
             throw new TagNotFoundException(String.format(TAG_NOT_FOUND_MSG, tagId));

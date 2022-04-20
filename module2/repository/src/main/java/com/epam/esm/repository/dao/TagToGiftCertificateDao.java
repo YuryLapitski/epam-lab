@@ -22,7 +22,7 @@ public interface TagToGiftCertificateDao {
      * @param giftCertificateId gift certificate ID to create
      * @return TagToGiftCertificateRelation
      */
-    TagToGiftCertificateRelation createTagToGiftCertificateRelation(long tagId, long giftCertificateId);
+    TagToGiftCertificateRelation createTagToGiftCertificateRelation(Long tagId, Long giftCertificateId);
 
     /**
      * Searches for gift certificate by tag name
@@ -38,7 +38,7 @@ public interface TagToGiftCertificateDao {
      * @param tagId tag id to find tag to gift certificate relation
      * @return founded list of tag to gift certificate relations
      */
-    List<TagToGiftCertificateRelation> findByTagId(long tagId);
+    List<TagToGiftCertificateRelation> findByTagId(Long tagId);
 
     /**
      * Searches for tags by gift certificate ID
@@ -46,7 +46,7 @@ public interface TagToGiftCertificateDao {
      * @param giftCertificateId id of the gift certificate to find tags
      * @return founded list of tags
      */
-    List<Tag> findByGiftCertificateId(long giftCertificateId);
+    List<Tag> findByGiftCertificateId(Long giftCertificateId);
 
     /**
      * Deletes tag to gift certificate relations by gift certificate ID
@@ -54,5 +54,5 @@ public interface TagToGiftCertificateDao {
      * @param giftCertificateId id of the gift certificate to delete tag to gift certificate relations
      * @return true if the tag to gift certificate was deleted
      */
-    boolean deleteByGiftCertificateId(long giftCertificateId);
+    boolean deleteByGiftCertificateId(Long giftCertificateId);
 }

@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("dev")
 public class TagDaoImplTest {
     private static final int EXPECTED_LIST_SIZE = 4;
-    private static final long EXPECTED_TAG_ID = 4L;
+    private static final Long EXPECTED_TAG_ID = 4L;
     private static final String TAG_NAME = "second";
-    private static final long TAG_ID = 2L;
-    private static final long DELETE_TAG_ID = 5L;
+    private static final Long TAG_ID = 2L;
+    private static final Long DELETE_TAG_ID = 5L;
     private static final String EXPECTED_TAG_NAME = "fourth";
     private static final String CREATED_TAG_NAME = "newTag";
 

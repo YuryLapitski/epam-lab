@@ -47,13 +47,13 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag findById(long id) {
+    public Tag findById(Long id) {
         return tagDao.findById(id).orElseThrow(() -> new TagNotFoundException(String.format(TAG_NOT_FOUND_MSG, id)));
     }
 
     @Transactional
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<Tag> optionalTag = tagDao.findById(id);
         if (optionalTag.isPresent()) {
             if (tagToGiftCertificateDao.findByTagId(id).isEmpty()) {

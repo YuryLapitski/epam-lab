@@ -12,7 +12,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @ToString
 public class Tag {
-    private long id;
+    private Long id;
     private String name;
 
     @Override
@@ -27,7 +27,8 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        return id == tag.id && Objects.equals(name, tag.name);
+        return Objects.equals(id, tag.id) &&
+                Objects.equals(name, tag.name);
     }
 
     @Override

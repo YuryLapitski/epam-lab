@@ -81,7 +81,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public Optional<GiftCertificate> findById(long id) {
+    public Optional<GiftCertificate> findById(Long id) {
         Optional<GiftCertificate> optionalGiftCertificate;
 
         try {
@@ -122,7 +122,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public Optional<GiftCertificate> update(long id, Map<String, Object> paramForUpdate) {
+    public Optional<GiftCertificate> update(Long id, Map<String, Object> paramForUpdate) {
         SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
         String updateQuery = sqlQueryBuilder.buildQueryForUpdate(paramForUpdate);
         List<Object> values = new ArrayList<>(paramForUpdate.values());
@@ -133,7 +133,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         return jdbcTemplate.update(DELETE_GIFT_CERTIFICATE_BY_ID, id) == NUMBER_OF_CHANGED_ROWS;
     }
 }

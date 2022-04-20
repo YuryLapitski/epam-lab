@@ -33,12 +33,12 @@ public interface TagService {
      * @param id id of the tag to find
      * @return founded tag
      */
-    Tag findById(long id);
+    Tag findById(Long id);
 
     /**
      * Deletes tag
      *
      * @param id id of the tag to delete
      */
-    boolean delete(long id);
+    boolean delete(Long id);
 }

@@ -19,7 +19,7 @@ public interface TagToGiftCertificateService {
      * @param tagId tag to create
      * @return tag to gift certificate relation
      */
-    TagToGiftCertificateRelation createTagToGiftCertificateRelation(long tagId, long giftCertificateId);
+    TagToGiftCertificateRelation createTagToGiftCertificateRelation(Long tagId, Long giftCertificateId);
 
     /**
      * Searches for gift certificates by tag name

@@ -24,17 +24,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("dev")
 public class GiftCertificateDaoImplTest {
     private static final String PART_OF_SEARCH = "ficat";
-    private static final long CERTIFICATE_ID = 3L;
+    private static final Long CERTIFICATE_ID = 3L;
     private static final String CERTIFICATE_NAME = "certificate 3";
     private static final String CERTIFICATE_DESCRIPTION = "description 3";
     private static final BigDecimal CERTIFICATE_PRICE = BigDecimal.valueOf(30.99);
     private static final short CERTIFICATE_DURATION = 10;
-    private static final long NEW_CERTIFICATE_ID = 4L;
+    private static final Long NEW_CERTIFICATE_ID = 4L;
     private static final String NEW_CERTIFICATE_NAME = "newName";
     private static final String NEW_CERTIFICATE_DESCRIPTION = "newDescription";
     private static final BigDecimal NEW_CERTIFICATE_PRICE = BigDecimal.valueOf(99.99);
     private static final short NEW_CERTIFICATE_DURATION = 60;
-    private static final long UPDATED_ID = 2L;
+    private static final Long UPDATED_ID = 2L;
     private static final String UPDATED_NAME = "updatedName";
     private static final String UPDATED_DESCRIPTION = "updatedDescription";
     private static final BigDecimal UPDATED_PRICE = BigDecimal.valueOf(55.55);

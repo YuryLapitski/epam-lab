@@ -16,7 +16,7 @@ import java.util.Objects;
 @ToString
 public class GiftCertificate {
 
-    private long id;
+    private Long id;
     private String name;
     private String description;
     private BigDecimal price;
@@ -37,9 +37,8 @@ public class GiftCertificate {
         }
 
         GiftCertificate that = (GiftCertificate) o;
-
-        return id == that.id &&
-                duration == that.duration &&
+        return duration == that.duration &&
+                Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(price, that.price) &&

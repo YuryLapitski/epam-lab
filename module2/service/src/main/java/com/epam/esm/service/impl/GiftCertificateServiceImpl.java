@@ -161,7 +161,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Optional<GiftCertificate> optionalGiftCertificate = giftCertificateDao.findById(id);
 
         if (!optionalGiftCertificate.isPresent()) {

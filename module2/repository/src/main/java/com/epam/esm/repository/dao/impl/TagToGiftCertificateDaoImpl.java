@@ -43,7 +43,7 @@ public class TagToGiftCertificateDaoImpl implements TagToGiftCertificateDao {
     }
 
     @Override
-    public TagToGiftCertificateRelation createTagToGiftCertificateRelation(long tagId, long giftCertificateId) {
+    public TagToGiftCertificateRelation createTagToGiftCertificateRelation(Long tagId, Long giftCertificateId) {
         jdbcTemplate.update(CREATE_TAG_TO_GIFT_CERTIFICATE_RELATION, tagId, giftCertificateId);
         TagToGiftCertificateRelation tagToGiftCertificate = new TagToGiftCertificateRelation();
         tagToGiftCertificate.setTagId(tagId);
@@ -58,17 +58,17 @@ public class TagToGiftCertificateDaoImpl implements TagToGiftCertificateDao {
     }
 
     @Override
-    public List<TagToGiftCertificateRelation> findByTagId(long tagID) {
+    public List<TagToGiftCertificateRelation> findByTagId(Long tagID) {
         return jdbcTemplate.query(FIND_BY_TAG_ID, tagToGiftCertificateRelationRowMapper, tagID);
     }
 
     @Override
-    public List<Tag> findByGiftCertificateId(long giftCertificateId) {
+    public List<Tag> findByGiftCertificateId(Long giftCertificateId) {
         return jdbcTemplate.query(FIND_BY_GIFT_CERTIFICATE_ID, tagRowMapper, giftCertificateId);
     }
 
     @Override
-    public boolean deleteByGiftCertificateId(long giftCertificateId) {
+    public boolean deleteByGiftCertificateId(Long giftCertificateId) {
         return jdbcTemplate.update(DELETE_BY_GIFT_CERTIFICATE_ID, giftCertificateId) >= NUMBER_OF_CHANGED_ROWS;
     }
 }
