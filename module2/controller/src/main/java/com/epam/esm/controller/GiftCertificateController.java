@@ -1,9 +1,7 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.entity.TagToGiftCertificateRelation;
 import com.epam.esm.service.GiftCertificateService;
-import com.epam.esm.service.TagToGiftCertificateService;
 import com.epam.esm.service.dto.GiftCertificateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
