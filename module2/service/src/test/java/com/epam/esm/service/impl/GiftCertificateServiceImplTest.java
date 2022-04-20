@@ -9,6 +9,7 @@ import com.epam.esm.repository.dao.TagToGiftCertificateDao;
 import com.epam.esm.repository.dao.impl.GiftCertificateDaoImpl;
 import com.epam.esm.repository.dao.impl.TagDaoImpl;
 import com.epam.esm.service.GiftCertificateService;
+import com.epam.esm.service.TagToGiftCertificateService;
 import com.epam.esm.service.dto.GiftCertificateDto;
 import com.epam.esm.service.exception.*;
 import com.epam.esm.service.validator.GiftCertificateValidator;
@@ -34,13 +35,13 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class GiftCertificateServiceImplTest {
-    private static final long ID = 10L;
+    private static final Long ID = 10L;
     private static final String NAME = "Gift certificate";
     private static final String DESCRIPTION = "description";
     private static final BigDecimal PRICE = BigDecimal.valueOf(99.99);
     private static final short DURATION = 100;
-    private static final long GIFT_CERTIFICATE_ID = 1L;
-    private static final long TAG_ID = 1L;
+    private static final Long GIFT_CERTIFICATE_ID = 1L;
+    private static final Long TAG_ID = 1L;
     private static final String TAG_NAME = "Tag";
     private static final String ANY_STRING = "Any string";
     private GiftCertificate giftCertificate;
@@ -49,6 +50,7 @@ public class GiftCertificateServiceImplTest {
     private TagDao tagDao;
     private GiftCertificateDto giftCertificateDto;
     private TagToGiftCertificateDao tagToGiftCertificateDao;
+    private TagToGiftCertificateService tagToGiftCertificateService;
     private GiftCertificateValidator giftCertificateValidator;
     private TagValidator tagValidator;
     private GiftCertificateService giftCertificateService;
@@ -73,7 +75,7 @@ public class GiftCertificateServiceImplTest {
         giftCertificateValidator = mock(GiftCertificateValidatorImpl.class);
         tagValidator = mock(TagValidatorImpl.class);
         giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao,
-                tagToGiftCertificateDao, giftCertificateValidator, tagValidator);
+                tagToGiftCertificateDao, tagToGiftCertificateService, giftCertificateValidator, tagValidator);
         giftCertificateList = new ArrayList<>();
         giftCertificateList.add(giftCertificate);
     }

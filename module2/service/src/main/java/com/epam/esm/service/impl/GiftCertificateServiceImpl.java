@@ -1,10 +1,12 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.entity.Tag;
+import com.epam.esm.entity.TagToGiftCertificateRelation;
 import com.epam.esm.repository.dao.GiftCertificateDao;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.repository.dao.TagDao;
 import com.epam.esm.repository.dao.TagToGiftCertificateDao;
+import com.epam.esm.service.TagToGiftCertificateService;
 import com.epam.esm.service.dto.GiftCertificateDto;
 import com.epam.esm.service.exception.*;
 import com.epam.esm.service.GiftCertificateService;
@@ -41,6 +43,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateDao giftCertificateDao;
     private final TagDao tagDao;
     private final TagToGiftCertificateDao tagToGiftCertificateDao;
+    private final TagToGiftCertificateService tagToGiftCertificateService;
     private final GiftCertificateValidator giftCertificateValidator;
     private final TagValidator tagValidator;
 
@@ -49,11 +52,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao,
                                       TagDao tagDao,
                                       TagToGiftCertificateDao tagToGiftCertificateDao,
-                                      GiftCertificateValidator giftCertificateValidator,
+                                      TagToGiftCertificateService tagToGiftCertificateService, GiftCertificateValidator giftCertificateValidator,
                                       TagValidator tagValidator) {
         this.giftCertificateDao = giftCertificateDao;
         this.tagDao = tagDao;
         this.tagToGiftCertificateDao = tagToGiftCertificateDao;
+        this.tagToGiftCertificateService = tagToGiftCertificateService;
         this.giftCertificateValidator = giftCertificateValidator;
         this.tagValidator = tagValidator;
     }
@@ -123,7 +127,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public GiftCertificateDto findByGiftCertificateId(long id) {
+    public GiftCertificateDto findByGiftCertificateId(Long id) {
         GiftCertificate giftCertificate = giftCertificateDao.findById(id)
                 .orElseThrow(() -> new GiftCertificateNotFoundException(String
                 .format(GIFT_CERTIFICATE_ID_NOT_FOUND_MSG, id)));
@@ -183,6 +187,41 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 new CannotUpdateException(CANNOT_UPDATE_GIFT_CERTIFICATE_MSG));
 
         return createGiftCertificateDto(giftCertificate);
+    }
+
+    @Override
+    public List<GiftCertificateDto> findByAttributes(Long id, String name, String tagName,
+                                                     String columnName, String sortType) {
+        List<GiftCertificateDto> giftCertificateDtoList = new ArrayList<>();
+
+        if (id != null) {
+            giftCertificateDtoList.add(findByGiftCertificateId(id));
+        }
+        if (name != null) {
+            giftCertificateDtoList = findByPartOfName(name);
+        }
+        if (tagName != null) {
+            giftCertificateDtoList = tagToGiftCertificateService.findGiftCertificatesByTagName(tagName);
+        }
+        if (columnName != null && sortType != null) {
+            giftCertificateDtoList = findAllWithSort(columnName, sortType);
+        }
+        if (name == null && tagName == null && columnName == null && sortType == null && id == null) {
+            giftCertificateDtoList = findAll();
+        }
+
+        return giftCertificateDtoList;
+    }
+
+    @Override
+    public void createByParam(GiftCertificateDto giftCertificateDto,
+                              Long tagId, Long giftCertificateId) {
+        if (giftCertificateDto != null) {
+            create(giftCertificateDto);
+        }
+        if (tagId != null && giftCertificateId != null) {
+            tagToGiftCertificateService.createTagToGiftCertificateRelation(tagId, giftCertificateId);
+        }
     }
 
     private Map<String, Object> fillMap(GiftCertificate giftCertificate) {

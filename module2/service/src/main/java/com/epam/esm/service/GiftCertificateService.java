@@ -1,6 +1,7 @@
 package com.epam.esm.service;
 
 import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.TagToGiftCertificateRelation;
 import com.epam.esm.service.dto.GiftCertificateDto;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface GiftCertificateService {
 
     List<GiftCertificateDto> findAll();
 
-    GiftCertificateDto findByGiftCertificateId(long id);
+    GiftCertificateDto findByGiftCertificateId(Long id);
 
     List<GiftCertificateDto> findByPartOfName(String name);
 
@@ -18,4 +19,10 @@ public interface GiftCertificateService {
     boolean delete(long id);
 
     GiftCertificateDto update(GiftCertificate entity);
+
+    List<GiftCertificateDto> findByAttributes(Long id, String name, String tagName,
+                                              String columnName, String sortType);
+
+    void createByParam(GiftCertificateDto giftCertificateDto,
+                       Long tagId, Long giftCertificateId);
 }
