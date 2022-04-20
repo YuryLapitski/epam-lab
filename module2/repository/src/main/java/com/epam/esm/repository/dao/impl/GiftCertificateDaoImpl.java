@@ -30,7 +30,6 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     private static final String CREATE_GIFT_CERTIFICATE = "INSERT INTO gift_certificate(name, description, price," +
             " duration, create_date, last_update_date) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String DELETE_GIFT_CERTIFICATE_BY_ID = "DELETE FROM gift_certificate WHERE id = ?";
-    private static final String DELETE_GIFT_CERTIFICATE_BY_NAME = "DELETE FROM gift_certificate WHERE name = ?";
     private static final String FIND_ALL_GIFT_CERTIFICATES = "SELECT id, name, description, price, duration, " +
             "create_date, last_update_date FROM gift_certificate";
 
