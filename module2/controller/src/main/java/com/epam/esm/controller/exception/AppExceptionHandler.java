@@ -1,6 +1,14 @@
 package com.epam.esm.controller.exception;
 
-import com.epam.esm.service.exception.*;
+import com.epam.esm.service.exception.CannotUpdateException;
+import com.epam.esm.service.exception.FieldValidationException;
+import com.epam.esm.service.exception.GiftCertificateAlreadyExistException;
+import com.epam.esm.service.exception.GiftCertificateNotFoundException;
+import com.epam.esm.service.exception.GiftCertificatesNotFoundException;
+import com.epam.esm.service.exception.InvalidColumnNameException;
+import com.epam.esm.service.exception.InvalidSortTypeException;
+import com.epam.esm.service.exception.TagNotFoundException;
+import com.epam.esm.service.exception.TagToGiftCertificateReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
