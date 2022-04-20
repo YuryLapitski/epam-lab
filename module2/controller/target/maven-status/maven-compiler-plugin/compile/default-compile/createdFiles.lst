@@ -1,0 +1,7 @@
+com\epam\esm\controller\exception\ErrorResponse.class
+com\epam\esm\controller\GiftCertificateController.class
+com\epam\esm\controller\exception\ErrorResponse$ErrorResponseBuilder.class
+com\epam\esm\controller\exception\AppExceptionHandler.class
+com\epam\esm\controller\config\SpringWebConfig.class
+com\epam\esm\controller\config\WebDispatcherServletInitializer.class
+com\epam\esm\controller\TagController.class

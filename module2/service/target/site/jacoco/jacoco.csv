@@ -1,0 +1,17 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+service,com.epam.esm.service.config,ServiceConfig,12,0,0,0,4,0,2,0,2,0
+service,com.epam.esm.service.impl,GiftCertificateServiceImpl,91,445,35,29,22,93,24,28,2,18
+service,com.epam.esm.service.impl,TagServiceImpl,0,89,0,6,0,16,0,9,0,6
+service,com.epam.esm.service.impl,TagToGiftCertificateServiceImpl,0,128,0,8,0,27,0,9,0,5
+service,com.epam.esm.service.dto,GiftCertificateDto,34,47,4,6,3,10,6,7,2,6
+service,com.epam.esm.service.validator.impl,TagValidatorImpl,0,21,0,2,0,6,0,4,0,3
+service,com.epam.esm.service.validator.impl,GiftCertificateValidatorImpl,0,118,0,32,0,19,0,25,0,9
+service,com.epam.esm.service.exception,TagToGiftCertificateReferenceException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,GiftCertificatesNotFoundException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,InvalidColumnNameException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,TagNotFoundException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,GiftCertificateAlreadyExistException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,FieldValidationException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,InvalidSortTypeException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,CannotUpdateException,0,4,0,0,0,2,0,1,0,1
+service,com.epam.esm.service.exception,GiftCertificateNotFoundException,0,4,0,0,0,2,0,1,0,1

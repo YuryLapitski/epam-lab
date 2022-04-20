@@ -1,0 +1,5 @@
+com\epam\esm\service\validator\impl\TagValidatorImplTest.class
+com\epam\esm\service\impl\GiftCertificateServiceImplTest.class
+com\epam\esm\service\validator\impl\GiftCertificateValidatorImplTest.class
+com\epam\esm\service\impl\TagServiceImplTest.class
+com\epam\esm\service\impl\TagToGiftCertificateServiceImplTest.class
