@@ -41,7 +41,6 @@ public class GiftCertificateValidatorImpl implements GiftCertificateValidator {
     @Override
     public boolean isPriceValid(BigDecimal price) {
         return price.compareTo(MIN_PRICE) >= 1 && price.compareTo(MAX_PRICE) <= 0;
-//        return price >= MIN_PRICE.doubleValue() && price <= MAX_PRICE;
     }
 
     @Override

@@ -57,7 +57,7 @@ public interface GiftCertificateService {
     /**
      * Deletes gift certificate
      *
-     * @param id id of the пшае certificate to delete
+     * @param id id of the gift certificate to delete
      */
     boolean delete(Long id);
 
@@ -65,33 +65,21 @@ public interface GiftCertificateService {
      * Updates existing gift certificate
      * If certificateDto contain new tags, they will be created as well
      *
-     * @param giftCertificate gift certificate for update
+     * @param giftCertificateId id of the gift certificate to update
+     * @param giftCertificateDto gift certificate for update
      * @return updated GiftCertificateDto
      */
-    GiftCertificateDto update(GiftCertificate giftCertificate);
+    GiftCertificateDto update(Long giftCertificateId, GiftCertificateDto giftCertificateDto);
 
     /**
      * Searches for certificates by attributes
      *
-     * @param id is searching a certificate by ID
      * @param name name of the certificate (it can be part of name)
      * @param tagName name of the certificate tag to contain (it can be part of name)
      * @param columnName column name to sorting by
      * @param sortType sorting type. Can be ASC or DESC
      * @return list of founded lis of GiftCertificateDto
      */
-    List<GiftCertificateDto> findByAttributes(Long id, String name, String tagName,
+    List<GiftCertificateDto> findByAttributes(String name, String tagName,
                                               String columnName, String sortType);
-
-    /**
-     * Creates new gift certificate or tag to gift certificate relation
-     * depending on the parameters passed
-     * If certificateDto contain new tags, they will be created as well
-     *
-     * @param giftCertificateDto certificate to create
-     * @param tagId id of the tag to create relation
-     * @param giftCertificateId id of the gift certificate to create relation
-     */
-    void createByParam(GiftCertificateDto giftCertificateDto,
-                       Long tagId, Long giftCertificateId);
 }

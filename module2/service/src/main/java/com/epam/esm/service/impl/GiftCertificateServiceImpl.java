@@ -33,6 +33,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private static final String INVALID_COLUMN_NAME_MSG = "Invalid column name. Please choose 'name', " +
             "'description', 'price', 'duration', 'create_date', 'last_update_date' columns";
     private static final String INVALID_SORT_TYPE_MSG = "Invalid sort type. Sort type can be only 'asc' or 'desc'.";
+    private static final String CANNOT_BE_EMPTY_FIELDS_MSG = "Fields 'Name', 'Description', 'Price', 'Duration' " +
+            "cannot be empty";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
     private static final String PRICE = "price";
@@ -64,10 +66,23 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Transactional
     @Override
     public GiftCertificateDto create(GiftCertificateDto giftCertificateDto) {
+        if (giftCertificateDto.getGiftCertificate().getName() == null
+                || giftCertificateDto.getGiftCertificate().getDescription() == null
+                || giftCertificateDto.getGiftCertificate().getPrice() == null
+                || giftCertificateDto.getGiftCertificate().getDuration() == 0) {
+            throw new FieldValidationException(CANNOT_BE_EMPTY_FIELDS_MSG);
+        }
+
+        if (giftCertificateDto.getTags() == null) {
+            giftCertificateDto.setTags(new ArrayList<>());
+        }
+
         if (!isValidGiftCertificate(giftCertificateDto.getGiftCertificate())
-                || !isValidTags(giftCertificateDto.getTags())) {
+                || !isValidTags(giftCertificateDto.getTags()) && giftCertificateDto.getTags() != null) {
             throw new FieldValidationException(INVALID_FIELDS_MSG);
         }
+
+
         if (isGiftCertificateExist(giftCertificateDto)) {
             throw new GiftCertificateAlreadyExistException(String
                     .format(GIFT_CERTIFICATE_ALREADY_EXIST_MSG, giftCertificateDto.getGiftCertificate().getName()));
@@ -82,6 +97,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     private boolean isValidTags(List<Tag> tags) {
+        if (tags == null) {
+            return true;
+        }
         return tags.stream().allMatch(tag -> tagValidator.isNameValid(tag.getName()));
     }
 
@@ -99,6 +117,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     private List<Tag> createTagsList(GiftCertificateDto giftCertificateDto) {
+        if (giftCertificateDto.getTags() == null) {
+            return Collections.emptyList();
+        }
+
         GiftCertificate giftCertificate = giftCertificateDto.getGiftCertificate();
 
         List<Tag> tagList = new ArrayList<>();
@@ -175,27 +197,37 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Transactional
     @Override
-    public GiftCertificateDto update(GiftCertificate entity) {
-        if (!giftCertificateDao.findById(entity.getId()).isPresent()) {
-            String msg = String.format(GIFT_CERTIFICATE_ID_NOT_FOUND_MSG, entity.getId());
+    public GiftCertificateDto update(Long giftCertificateId, GiftCertificateDto giftCertificateDto) {
+        if (!giftCertificateDao.findById(giftCertificateId).isPresent()) {
+            String msg = String.format(GIFT_CERTIFICATE_ID_NOT_FOUND_MSG, giftCertificateId);
             throw new GiftCertificateNotFoundException(msg);
         }
 
-        Map<String, Object> paramMap = fillMap(entity);
-        GiftCertificate giftCertificate = giftCertificateDao.update(entity.getId(), paramMap).orElseThrow(() ->
+        Map<String, Object> paramMap = fillMap(giftCertificateDto.getGiftCertificate());
+        GiftCertificate giftCertificate = giftCertificateDao.update(giftCertificateId, paramMap).orElseThrow(() ->
                 new CannotUpdateException(CANNOT_UPDATE_GIFT_CERTIFICATE_MSG));
 
-        return createGiftCertificateDto(giftCertificate);
+        giftCertificate.setId(giftCertificateId);
+        giftCertificateDto.setGiftCertificate(giftCertificate);
+
+        tagToGiftCertificateDao.deleteByGiftCertificateId(giftCertificateId);
+        List<Tag> tagList;
+        if (giftCertificateDto.getTags() == null) {
+            tagList = Collections.emptyList();
+        } else {
+            tagList = createTagsList(giftCertificateDto);
+        }
+
+        giftCertificateDto.setTags(tagList);
+
+        return giftCertificateDto;
     }
 
     @Override
-    public List<GiftCertificateDto> findByAttributes(Long id, String name, String tagName,
+    public List<GiftCertificateDto> findByAttributes(String name, String tagName,
                                                      String columnName, String sortType) {
         List<GiftCertificateDto> giftCertificateDtoList = new ArrayList<>();
 
-        if (id != null) {
-            giftCertificateDtoList.add(findByGiftCertificateId(id));
-        }
         if (name != null) {
             giftCertificateDtoList = findByPartOfName(name);
         }
@@ -205,22 +237,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (columnName != null && sortType != null) {
             giftCertificateDtoList = findAllWithSort(columnName, sortType);
         }
-        if (name == null && tagName == null && columnName == null && sortType == null && id == null) {
+        if (name == null && tagName == null && columnName == null && sortType == null) {
             giftCertificateDtoList = findAll();
         }
 
         return giftCertificateDtoList;
-    }
-
-    @Override
-    public void createByParam(GiftCertificateDto giftCertificateDto,
-                              Long tagId, Long giftCertificateId) {
-        if (giftCertificateDto != null) {
-            create(giftCertificateDto);
-        }
-        if (tagId != null && giftCertificateId != null) {
-            tagToGiftCertificateService.createTagToGiftCertificateRelation(tagId, giftCertificateId);
-        }
     }
 
     private Map<String, Object> fillMap(GiftCertificate giftCertificate) {

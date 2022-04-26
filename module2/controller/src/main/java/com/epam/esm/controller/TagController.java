@@ -31,6 +31,7 @@ public class TagController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Tag create(@RequestBody Tag tag) {
         return tagService.create(tag);
     }

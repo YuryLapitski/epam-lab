@@ -220,7 +220,7 @@ public class GiftCertificateServiceImplTest {
         when(giftCertificateValidator.isDescriptionValid(anyString())).thenReturn(true);
         when(giftCertificateValidator.isPriceValid(any())).thenReturn(true);
         when(giftCertificateValidator.isDurationValid(anyShort())).thenReturn(true);
-        GiftCertificateDto actualResult = giftCertificateService.update(giftCertificate);
+        GiftCertificateDto actualResult = giftCertificateService.update(GIFT_CERTIFICATE_ID, giftCertificateDto);
         assertEquals(expectedResult, actualResult);
     }
 
@@ -232,12 +232,14 @@ public class GiftCertificateServiceImplTest {
         when(giftCertificateValidator.isDescriptionValid(anyString())).thenReturn(true);
         when(giftCertificateValidator.isPriceValid(any())).thenReturn(true);
         when(giftCertificateValidator.isDurationValid(anyShort())).thenReturn(true);
-        assertThrows(CannotUpdateException.class, () -> giftCertificateService.update(giftCertificate));
+        assertThrows(CannotUpdateException.class, () -> giftCertificateService.update(GIFT_CERTIFICATE_ID,
+                giftCertificateDto));
     }
 
     @Test
     void testUpdateShouldThrowGiftCertificateNotFoundException() {
         when(giftCertificateDao.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(GiftCertificateNotFoundException.class, () -> giftCertificateService.update(giftCertificate));
+        assertThrows(GiftCertificateNotFoundException.class, () -> giftCertificateService.update(GIFT_CERTIFICATE_ID,
+                giftCertificateDto));
     }
 }
