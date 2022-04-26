@@ -1,8 +1,0 @@
-com\epam\esm\repository\dao\GiftCertificateDao.class
-com\epam\esm\repository\dao\TagToGiftCertificateDao.class
-com\epam\esm\repository\dao\TagDao.class
-com\epam\esm\repository\dao\impl\TagToGiftCertificateDaoImpl.class
-com\epam\esm\repository\dao\impl\GiftCertificateDaoImpl.class
-com\epam\esm\repository\dao\impl\TagDaoImpl.class
-com\epam\esm\repository\config\SpringJdbcConfig.class
-com\epam\esm\repository\util\SqlQueryBuilder.class
